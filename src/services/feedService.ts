@@ -1,6 +1,7 @@
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import type { X2jOptions, XmlBuilderOptions } from 'fast-xml-parser';
-import z from 'zod';
+import { feedSchema } from '../types/feeds';
+import type { FeedData } from '../types/feeds';
 
 const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
   ignoreAttributes: false,
@@ -13,62 +14,24 @@ const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
 const parser = new XMLParser(xmlOptions);
 const builder = new XMLBuilder(xmlOptions);
 
-const stringOrCDATA = z
-  .string()
-  .min(1)
-  .or(
-    z.object({
-      cdata: z.string().min(1),
-    })
-  );
-
-const feedSchema = z
-  .object({
-    '?xml': z.object({}).passthrough(),
-    rss: z
-      .object({
-        channel: z
-          .object({
-            title: stringOrCDATA,
-            item: z.array(
-              z
-                .object({
-                  title: stringOrCDATA,
-                  'itunes:duration': z.string().or(z.number()).optional(),
-                })
-                .passthrough()
-            ),
-          })
-          .passthrough(),
-      })
-      .passthrough(),
-  })
-  .passthrough();
-
-type FeedData = z.infer<typeof feedSchema>;
-
 const fetchFeed = (url: string) =>
   fetch(url)
     .then((x) => x.text())
     .catch(() => {
-      throw 'Could not pull feed data';
+      throw 'Error pulling source feed data';
     });
 
-const parseFeed = (rawFeedData: string) => {
-  const parsedFeedData = parser.parse(rawFeedData);
-  const feedData = feedSchema.safeParse(parsedFeedData);
-
-  console.log(parsedFeedData.rss);
-
-  if (!feedData.success) throw `Invalid feed - ${feedData.error}`;
-
-  return feedData.data;
+const parseFeed = (rawFeed: string): FeedData => {
+  const parsedFeed = parser.parse(rawFeed);
+  return feedSchema.parse(parsedFeed);
 };
 
-const buildFeed = (feedData: FeedData) => builder.build(feedData);
+const buildFeed = (feed: FeedData) => builder.build(feed);
 
-const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]) => {
-  const newFeed = JSON.parse(JSON.stringify(mainFeed)) as FeedData;
+const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData => {
+  if (additionalFeeds.length === 0) return mainFeed;
+
+  const newFeed = feedSchema.parse(JSON.parse(JSON.stringify(mainFeed)));
 
   additionalFeeds.forEach((feed) => {
     newFeed.rss = { ...feed.rss, ...newFeed.rss };
@@ -79,4 +42,3 @@ const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]) => {
 };
 
 export { fetchFeed, parseFeed, buildFeed, mergeFeeds };
-export type { FeedData };
