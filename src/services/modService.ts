@@ -81,13 +81,15 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
 
     if (mod.type === 'minimum-duration')
       channel.item = channel.item.filter(
-        (item) => parseDuration(item['itunes:duration']) ?? 0 >= getSeconds(mod.duration, mod.units)
+        (item) =>
+          (parseDuration(item['itunes:duration']) ?? 0) >= getSeconds(mod.duration, mod.units)
       );
 
     if (mod.type === 'maximum-duration')
       channel.item = channel.item.filter(
         (item) =>
-          parseDuration(item['itunes:duration']) ?? Infinity <= getSeconds(mod.duration, mod.units)
+          (parseDuration(item['itunes:duration']) ?? Infinity) <=
+          getSeconds(mod.duration, mod.units)
       );
   });
 
