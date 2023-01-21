@@ -1,12 +1,36 @@
 import z from 'zod';
 
-const regexRegex = /^.*$/;
+const regexSchema = z.string().refine(
+  (val) => {
+    try {
+      new RegExp(val);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  {
+    message: 'Invalid Regular Expression',
+  }
+);
 
-const regexOptionsRegex = /^(d|g|i|m|s|u|y)*$/;
+const regexOptionsSchema = z.string().refine(
+  (val) => {
+    try {
+      new RegExp('.', val);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  {
+    message: 'Invalid Regular Expression Options',
+  }
+);
 
 const modConfigSchema = z.object({
   version: z.custom<`v${number}`>((val) => /^v\d+$/g.test(val as string)),
-  sources: z.array(z.string()).min(1),
+  sources: z.custom<[string, ...string[]]>((val) => z.array(z.string()).min(1).safeParse(val).success),
   title: z.string().optional(),
   imageUrl: z.string().url().optional(),
   episodeMods: z.array(
@@ -49,23 +73,23 @@ const modConfigSchema = z.object({
       .or(
         z.object({
           type: z.literal('matches-regex'),
-          regex: z.string().regex(regexRegex),
-          regexOptions: z.string().regex(regexOptionsRegex),
+          regex: regexSchema,
+          regexOptions: regexOptionsSchema,
         })
       )
       .or(
         z.object({
           type: z.literal('replace-regex'),
-          regex: z.string().regex(regexRegex),
-          regexOptions: z.string().regex(regexOptionsRegex),
+          regex: regexSchema,
+          regexOptions: regexOptionsSchema,
           replace: z.string().min(1),
         })
       )
       .or(
         z.object({
           type: z.literal('remove-regex'),
-          regex: z.string().regex(regexRegex),
-          regexOptions: z.string().regex(regexOptionsRegex),
+          regex: regexSchema,
+          regexOptions: regexOptionsSchema,
         })
       )
       .or(

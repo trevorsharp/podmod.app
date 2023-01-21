@@ -26,7 +26,7 @@ const parseFeed = (rawFeed: string): FeedData => {
   return feedSchema.parse(parsedFeed);
 };
 
-const buildFeed = (feed: FeedData) => builder.build(feed);
+const buildFeed = (feed: FeedData) => builder.build(feed) as string;
 
 const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData => {
   if (additionalFeeds.length === 0) return mainFeed;
