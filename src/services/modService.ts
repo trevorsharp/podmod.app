@@ -98,8 +98,8 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
 
 const updateTitle = (item: FeedItem, title: string): FeedItem => ({
   ...item,
-  title: { cdata: title },
-  'itunes:title': { cdata: title },
+  title: { cdata: title.trim() },
+  'itunes:title': { cdata: title.trim() },
 });
 
 const getTitle = (item: FeedItem) =>
