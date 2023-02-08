@@ -43,12 +43,12 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
 
     if (mod.type === 'replace-text')
       channel.item = channel.item.map((item) =>
-        updateTitle(item, getTitle(item).replaceRegex(new RegExp(mod.text, 'ig'), mod.replace))
+        updateTitle(item, getTitle(item).replaceRegex(new RegExp(mod.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'ig'), mod.replace))
       );
 
     if (mod.type === 'remove-text')
       channel.item = channel.item.map((item) =>
-        updateTitle(item, getTitle(item).replaceRegex(new RegExp(mod.text, 'ig'), ''))
+        updateTitle(item, getTitle(item).replaceRegex(new RegExp(mod.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'ig'), ''))
       );
 
     if (mod.type === 'prepend-text')
