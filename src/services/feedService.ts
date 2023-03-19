@@ -35,7 +35,14 @@ const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData =
 
   additionalFeeds.forEach((feed) => {
     newFeed.rss = { ...feed.rss, ...newFeed.rss };
-    newFeed.rss.channel.item.push(...feed.rss.channel.item);
+    const newItems = feed.rss.channel.item.filter((newItem) =>
+      newFeed.rss.channel.item.findIndex(
+        (existingItem) =>
+          newItem.enclosure?._url !== undefined &&
+          newItem.enclosure._url === existingItem.enclosure?._url
+      ) === -1
+    );
+    newFeed.rss.channel.item.push(...newItems);
   });
 
   return newFeed;

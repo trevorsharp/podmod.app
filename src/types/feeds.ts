@@ -29,6 +29,9 @@ const feedSchema = z
                   title: stringOrCDATA,
                   'itunes:title': stringOrCDATA.optional(),
                   'itunes:duration': z.string().or(z.number()).optional(),
+                  enclosure: z.object({
+                    '_url': z.string().optional()
+                  }).passthrough().optional()
                 })
                 .passthrough()
             ),
