@@ -17,6 +17,7 @@ const feedSchema = z
         channel: z
           .object({
             title: stringOrCDATA,
+            link: z.string().optional(),
             'atom:link': z
               .object({
                 _href: z.string(),
@@ -33,9 +34,7 @@ const feedSchema = z
               z
                 .object({
                   title: stringOrCDATA,
-                  description: stringOrCDATA.optional(),
                   'itunes:title': stringOrCDATA.optional(),
-                  'itunes:summary': stringOrCDATA.optional(),
                   'itunes:duration': z.string().or(z.number()).optional(),
                   enclosure: z
                     .object({

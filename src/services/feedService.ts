@@ -32,19 +32,7 @@ const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
     if (feed.rss.channel['atom:link']?._href)
       feed.rss.channel['atom:link']._href = `http://${host}/api/feed/${feedId}`;
 
-    const openInPodModLink = `<a href="http://${host}/api/feed/${feedId}/decode">Open in podmod</a>`;
-
-    feed.rss.channel.item = feed.rss.channel.item.map((item) => {
-      if (getValue(item.description))
-        item.description = { cdata: `${getValue(item.description)}\n \n${openInPodModLink}` };
-
-      if (getValue(item['itunes:summary']))
-        item['itunes:summary'] = {
-          cdata: `${getValue(item['itunes:summary'])}\n \n${openInPodModLink}`,
-        };
-
-      return item;
-    });
+    feed.rss.channel.link = `http://${host}/api/feed/${feedId}/decode`;
   }
 
   return builder.build(feed) as string;
