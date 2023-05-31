@@ -1,6 +1,6 @@
 import createCompress from 'compress-brotli';
-import { modConfigSchema } from '../types/mods';
-import type { ModConfig } from '../types/mods';
+import modConfigSchema from '@/schemas/modConfig';
+import type { ModConfig } from '@/types/ModConfig';
 
 const { compress, decompress } = createCompress();
 

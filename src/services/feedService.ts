@@ -1,8 +1,7 @@
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import type { X2jOptions, XmlBuilderOptions } from 'fast-xml-parser';
-import { feedSchema } from '../types/feeds';
-import type { FeedData } from '../types/feeds';
-import { getValue } from '../utils/getValue';
+import feedSchema from '@/schemas/feed';
+import type { FeedData } from '@/types/FeedData';
 
 const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
   ignoreAttributes: false,

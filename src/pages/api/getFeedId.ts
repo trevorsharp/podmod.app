@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { compressModConfig } from '../../services/compressionService';
-import { modConfigSchema } from '../../types/mods';
+import modConfigSchema from '@/schemas/modConfig';
+import { compressModConfig } from '@/services/compressionService';
 
 const getFeedId = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

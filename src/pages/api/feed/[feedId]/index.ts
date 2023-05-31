@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { buildFeed, fetchFeed, mergeFeeds, parseFeed } from '../../../../services/feedService';
-import { decompressModConfig } from '../../../../services/compressionService';
-import { applyMods } from '../../../../services/modService';
-import type { FeedData } from '../../../../types/feeds';
+import { buildFeed, fetchFeed, mergeFeeds, parseFeed } from '@/services/feedService';
+import { decompressModConfig } from '@/services/compressionService';
+import { applyMods } from '@/services/modService';
+import type { FeedData } from '@/types/FeedData';
 
 const getFeed = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

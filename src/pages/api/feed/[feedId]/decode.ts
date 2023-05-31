@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { decompressModConfig } from '../../../../services/compressionService';
+import { decompressModConfig } from '@/services/compressionService';
 
 const getFeed = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
