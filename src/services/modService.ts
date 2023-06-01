@@ -17,12 +17,12 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
   modConfig.episodeMods.forEach((mod) => {
     if (mod.type === 'includes-text')
       channel.item = channel.item.filter((item) =>
-        getValue(item.title).toLowerCase().includes(mod.option1.toLowerCase())
+        getValue(item.title).toLowerCase().includes(mod.text.toLowerCase())
       );
 
     if (mod.type === 'excludes-text')
       channel.item = channel.item.filter(
-        (item) => !getValue(item.title).toLowerCase().includes(mod.option1.toLowerCase())
+        (item) => !getValue(item.title).toLowerCase().includes(mod.text.toLowerCase())
       );
 
     if (mod.type === 'replace-text')
@@ -30,8 +30,8 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
         updateTitle(
           item,
           getValue(item.title).replaceRegex(
-            new RegExp(mod.option1.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'ig'),
-            mod.option2
+            new RegExp(mod.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'ig'),
+            mod.replace
           )
         )
       );
@@ -41,7 +41,7 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
         updateTitle(
           item,
           getValue(item.title).replaceRegex(
-            new RegExp(mod.option1.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'ig'),
+            new RegExp(mod.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'ig'),
             ''
           )
         )
@@ -51,7 +51,7 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
       channel.item = channel.item.map((item) =>
         updateTitle(
           item,
-          getValue(item.title).replaceRegex(new RegExp('^', 'ig'), `${mod.option1} `)
+          getValue(item.title).replaceRegex(new RegExp('^', 'ig'), `${mod.text} `)
         )
       );
 
@@ -59,20 +59,20 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
       channel.item = channel.item.map((item) =>
         updateTitle(
           item,
-          getValue(item.title).replaceRegex(new RegExp('$', 'ig'), ` ${mod.option1}`)
+          getValue(item.title).replaceRegex(new RegExp('$', 'ig'), ` ${mod.text}`)
         )
       );
 
     if (mod.type === 'matches-regex')
       channel.item = channel.item.filter(
-        (item) => getValue(item.title).match(new RegExp(mod.option1, mod.option2)) !== null
+        (item) => getValue(item.title).match(new RegExp(mod.regex, mod.regexFlags)) !== null
       );
 
     if (mod.type === 'replace-regex')
       channel.item = channel.item.map((item) =>
         updateTitle(
           item,
-          getValue(item.title).replaceRegex(new RegExp(mod.option1, mod.option2), mod.option3)
+          getValue(item.title).replaceRegex(new RegExp(mod.regex, mod.regexFlags), mod.replace)
         )
       );
 
@@ -80,21 +80,21 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
       channel.item = channel.item.map((item) =>
         updateTitle(
           item,
-          getValue(item.title).replaceRegex(new RegExp(mod.option1, mod.option2), '')
+          getValue(item.title).replaceRegex(new RegExp(mod.regex, mod.regexFlags), '')
         )
       );
 
     if (mod.type === 'minimum-duration')
       channel.item = channel.item.filter(
         (item) =>
-          (parseDuration(item['itunes:duration']) ?? 0) >= getSeconds(mod.option1, mod.option2)
+          (parseDuration(item['itunes:duration']) ?? 0) >= getSeconds(mod.duration, mod.units)
       );
 
     if (mod.type === 'maximum-duration')
       channel.item = channel.item.filter(
         (item) =>
           (parseDuration(item['itunes:duration']) ?? Infinity) <=
-          getSeconds(mod.option1, mod.option2)
+          getSeconds(mod.duration, mod.units)
       );
   });
 

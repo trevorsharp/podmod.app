@@ -62,11 +62,9 @@ const section = formSection({
                 <Select formType={formType} id={`mods.${index}.type`} options={modTypeOptions} />
 
                 {fields.length > 1 && (
-                  <div className="w-fit md:order-last">
-                    <div className="flex gap-2">
-                      {index > 0 && <MoveUpButton onClick={() => swap(index, index - 1)} />}
-                      <DeleteButton onClick={() => remove(index)} />
-                    </div>
+                  <div className="flex max-w-fit gap-2 md:order-last">
+                    {index > 0 && <MoveUpButton onClick={() => swap(index, index - 1)} />}
+                    <DeleteButton onClick={() => remove(index)} />
                   </div>
                 )}
 
