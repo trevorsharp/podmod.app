@@ -42,10 +42,11 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
             {prefix}
           </span>
         )}
-        <div className="relative w-full">
+
+        <div className="relative grow">
           <input
             className={clsx(
-              'block w-full min-w-0 rounded-none border-0 py-1.5 ring-1 ring-inset focus:ring-2 focus:ring-inset dark:bg-neutral-800 md:text-sm md:leading-6',
+              'w-full rounded-none border-0 py-1.5 ring-1 ring-inset focus:ring-2 focus:ring-inset dark:bg-neutral-800 md:text-sm md:leading-6',
               errorMessage
                 ? 'text-red-900 ring-red-300 placeholder:text-red-400 focus:ring-red-500 dark:text-red-300 '
                 : 'ring-neutral-300 placeholder:text-neutral-400 focus:ring-blue-600',
@@ -57,18 +58,21 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
             placeholder={placeholder}
             {...register(id)}
           />
+
           {errorMessage && (
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <div className="pointer-events-none absolute inset-y-2 right-0 pr-3">
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
             </div>
           )}
         </div>
+
         {suffix && (
           <span className="inline-flex items-center rounded-r-md border border-l-0 border-neutral-300 px-3 text-neutral-500 md:text-sm">
             {suffix}
           </span>
         )}
       </div>
+
       {errorMessage && (
         <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
       )}
