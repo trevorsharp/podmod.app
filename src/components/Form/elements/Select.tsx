@@ -2,19 +2,23 @@ import { useFormContext } from 'react-hook-form';
 import type { FieldValues } from 'react-hook-form';
 import type { FieldKey } from '@/types/FieldKey';
 
-type SelectProps<T extends FieldValues> = {
+type SelectProps<T extends FieldValues, TValue extends string> = {
+  formType: T | undefined;
   id: FieldKey<T>;
   label?: string;
-  options: { value: string; label: string }[];
+  options: Readonly<{ value: TValue; label: string }[]>;
 };
 
-const Select = <T extends FieldValues>({ id, options }: SelectProps<T>) => {
-  const { register } = useFormContext();
+const Select = <T extends FieldValues, TValue extends string>({
+  id,
+  options,
+}: SelectProps<T, TValue>) => {
+  const { register } = useFormContext<T>();
 
   return (
     <div>
       <select
-        className="block w-full min-w-max rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="block min-w-max rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-neutral-300 focus:ring-2 focus:ring-blue-600 dark:bg-neutral-800 md:text-sm md:leading-6"
         id={id}
         {...register(id)}
       >

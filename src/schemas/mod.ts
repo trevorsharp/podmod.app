@@ -1,77 +1,89 @@
 import { z } from 'zod';
 import regex from './regex';
-import regexOptions from './regexOptions';
+import regexFlags from './regexFlags';
 
 const mod = z
   .object({
     type: z.literal('includes-text'),
-    option1: z.string().min(1),
+    text: z.string().min(1, 'Must contain at least 1 character'),
   })
   .or(
     z.object({
       type: z.literal('excludes-text'),
-      option1: z.string().min(1),
+      text: z.string().min(1, 'Must contain at least 1 character'),
     })
   )
   .or(
     z.object({
       type: z.literal('replace-text'),
-      option1: z.string().min(1),
-      option2: z.string().min(1),
+      text: z.string().min(1, 'Must contain at least 1 character'),
+      replace: z.string().min(1, 'Must contain at least 1 character'),
     })
   )
   .or(
     z.object({
       type: z.literal('remove-text'),
-      option1: z.string().min(1),
+      text: z.string().min(1, 'Must contain at least 1 character'),
     })
   )
   .or(
     z.object({
       type: z.literal('prepend-text'),
-      option1: z.string().min(1),
+      text: z.string().min(1, 'Must contain at least 1 character'),
     })
   )
   .or(
     z.object({
       type: z.literal('append-text'),
-      option1: z.string().min(1),
+      text: z.string().min(1, 'Must contain at least 1 character'),
     })
   )
   .or(
     z.object({
       type: z.literal('matches-regex'),
-      option1: regex,
-      option2: regexOptions,
+      regex: regex,
+      regexFlags: regexFlags,
     })
   )
   .or(
     z.object({
       type: z.literal('replace-regex'),
-      option1: regex,
-      option2: regexOptions,
-      option3: z.string().min(1),
+      regex: regex,
+      regexFlags: regexFlags,
+      replace: z.string().min(1, 'Must contain at least 1 character'),
     })
   )
   .or(
     z.object({
       type: z.literal('remove-regex'),
-      option1: regex,
-      option2: regexOptions,
+      regex: regex,
+      regexFlags: regexFlags,
     })
   )
   .or(
     z.object({
       type: z.literal('minimum-duration'),
-      option1: z.number().int().min(0),
-      option2: z.literal('seconds').or(z.literal('minutes')).or(z.literal('hours')),
+      duration: z.preprocess(
+        (val) => (typeof val === 'string' ? val.trim() : val?.toString()),
+        z
+          .string()
+          .regex(/^[0-9]+$/, 'Must be an integer')
+          .transform((val) => parseInt(val.trim()))
+      ),
+      units: z.literal('seconds').or(z.literal('minutes')).or(z.literal('hours')),
     })
   )
   .or(
     z.object({
       type: z.literal('maximum-duration'),
-      option1: z.number().int().min(0),
-      option2: z.literal('seconds').or(z.literal('minutes')).or(z.literal('hours')),
+      duration: z.preprocess(
+        (val) => (typeof val === 'string' ? val.trim() : val?.toString()),
+        z
+          .string()
+          .regex(/^[0-9]+$/, 'Must be an integer')
+          .transform((val) => parseInt(val.trim()))
+      ),
+      units: z.literal('seconds').or(z.literal('minutes')).or(z.literal('hours')),
     })
   );
 

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { z } from 'zod';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import url from '@/schemas/url';
@@ -23,7 +22,7 @@ const section = formSection({
     });
 
     return (
-      <div className="flex w-full flex-col gap-4">
+      <div className="flex  flex-col gap-4">
         <SectionHeader
           title="Sources"
           button={<AddButton onClick={() => append(defaultSource, { shouldFocus: false })} />}
@@ -33,10 +32,10 @@ const section = formSection({
           {fields.map((field, index) => (
             <div className="flex items-start gap-3" key={field.id}>
               <Input
-                className="w-full"
                 formType={formType}
                 id={`sources.${index}.url`}
                 placeholder="Source URL"
+                prefix="http://"
               />
               {fields.length > 1 && <DeleteButton onClick={() => remove(index)} />}
             </div>

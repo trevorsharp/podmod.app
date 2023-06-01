@@ -3,43 +3,75 @@ import type { FieldValues } from 'react-hook-form';
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import type { FieldKey } from '@/types/FieldKey';
+import { useEffect } from 'react';
 
 type InputProps<T extends FieldValues> = {
   formType: T | undefined;
   id: FieldKey<T>;
   placeholder?: string;
-  className?: string;
+  prefix?: string;
+  suffix?: string;
 };
 
-const Input = <T extends FieldValues>({ id, placeholder = '', className = '' }: InputProps<T>) => {
+const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: InputProps<T>) => {
   const {
     register,
     formState: { errors },
+    watch,
+    setValue,
   } = useFormContext();
 
   const { message: errorMessage } = get(errors, id) ?? {};
 
+  const value = watch(id);
+
+  useEffect(() => {
+    if (
+      typeof value === 'string' &&
+      prefix === 'http://' &&
+      (value.startsWith('http://') || value.startsWith('https://'))
+    )
+      setValue(id, value.replace(/^http(s){0,1}:\/\//, ''));
+  }, [value, setValue, id, prefix]);
+
   return (
-    <div className={className}>
-      <div className="relative rounded-md shadow-sm">
-        <input
-          className={clsx(
-            errorMessage
-              ? 'block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6'
-              : 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+    <div className="flex flex-col">
+      <div className="flex rounded-md shadow-sm">
+        {prefix && (
+          <span className="inline-flex items-center rounded-l-md border border-r-0 border-neutral-300 px-3 text-neutral-400 md:text-sm">
+            {prefix}
+          </span>
+        )}
+        <div className="relative w-full">
+          <input
+            className={clsx(
+              'block w-full min-w-0 rounded-none border-0 py-1.5 ring-1 ring-inset focus:ring-2 focus:ring-inset dark:bg-neutral-800 md:text-sm md:leading-6',
+              errorMessage
+                ? 'text-red-900 ring-red-300 placeholder:text-red-400 focus:ring-red-500 dark:text-red-300 '
+                : 'ring-neutral-300 placeholder:text-neutral-400 focus:ring-blue-600',
+              !prefix && 'rounded-l-md',
+              !suffix && 'rounded-r-md'
+            )}
+            id={id}
+            type="text"
+            placeholder={placeholder}
+            {...register(id)}
+          />
+          {errorMessage && (
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+            </div>
           )}
-          id={id}
-          type="text"
-          placeholder={placeholder}
-          {...register(id)}
-        />
-        {errorMessage && (
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-          </div>
+        </div>
+        {suffix && (
+          <span className="inline-flex items-center rounded-r-md border border-l-0 border-neutral-300 px-3 text-neutral-500 md:text-sm">
+            {suffix}
+          </span>
         )}
       </div>
-      {errorMessage && <p className="mt-2 text-sm text-red-600">{errorMessage}</p>}
+      {errorMessage && (
+        <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
+      )}
     </div>
   );
 };

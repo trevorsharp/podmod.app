@@ -8,9 +8,9 @@ const section = formSection({
   key: 'imageUrl',
   schema: url.or(z.literal('')),
   Component: ({ formType }) => (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex  flex-col gap-4">
       <SectionHeader title="Cover Image" />
-      <Input formType={formType} id="imageUrl" placeholder="Image URL" />
+      <Input formType={formType} id="imageUrl" placeholder="Image URL" prefix="http://" />
     </div>
   ),
 });

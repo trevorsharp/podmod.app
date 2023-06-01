@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Modify your favorite podcast feeds" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen w-full flex-col items-center justify-center">
+      <main className="flex justify-center p-8">
         <Form />
       </main>
     </>

@@ -22,7 +22,7 @@ const formSection = <TKey extends string, TSchema extends z.ZodTypeAny>({
 
   const sectionDefaultValue = {
     [key]: defaultValue,
-  } as { [K in TKey]?: TSchema };
+  } as { [K in TKey]?: z.infer<TSchema> };
 
   return { schema: formSchema, Component, defaultValue: sectionDefaultValue };
 };

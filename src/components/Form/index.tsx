@@ -31,17 +31,18 @@ const Form = () => {
   return (
     <FormProvider {...form}>
       <form
-        className="container flex flex-col items-center justify-center gap-8 px-4 py-16"
+        className="flex  max-w-4xl flex-col items-center justify-center gap-8"
         onSubmit={onSubmit}
       >
         <sources.Component />
 
-        <div className="flex w-full flex-col justify-between gap-12 sm:flex-row">
+        <div className="flex  flex-col justify-between gap-12 md:flex-row">
           <title.Component />
           <imageUrl.Component />
         </div>
 
         <mods.Component />
+        <button className="hidden" type="submit" />
       </form>
     </FormProvider>
   );
