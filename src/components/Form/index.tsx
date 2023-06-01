@@ -31,12 +31,12 @@ const Form = () => {
   return (
     <FormProvider {...form}>
       <form
-        className="flex  max-w-4xl flex-col items-center justify-center gap-8"
+        className="flex  max-w-4xl flex-col items-center justify-center gap-10"
         onSubmit={onSubmit}
       >
         <sources.Component />
 
-        <div className="flex  flex-col justify-between gap-12 md:flex-row">
+        <div className="flex flex-col justify-between gap-10 md:flex-row">
           <title.Component />
           <imageUrl.Component />
         </div>
