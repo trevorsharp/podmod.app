@@ -2,6 +2,7 @@ import type { ModConfig } from '@/types/ModConfig';
 import type { FeedData } from '@/types/FeedData';
 import type { FeedItem } from '@/types/FeedItem';
 import { getValue } from '@/utils/getValue';
+import parseDuration from '@/utils/parseDuration';
 
 const applyMods = (feed: FeedData, modConfig: ModConfig) => {
   const channel = feed.rss.channel;
@@ -49,18 +50,12 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
 
     if (mod.type === 'prepend-text')
       channel.item = channel.item.map((item) =>
-        updateTitle(
-          item,
-          getValue(item.title).replaceRegex(new RegExp('^', 'ig'), `${mod.text} `)
-        )
+        updateTitle(item, getValue(item.title).replaceRegex(new RegExp('^', 'ig'), `${mod.text} `))
       );
 
     if (mod.type === 'append-text')
       channel.item = channel.item.map((item) =>
-        updateTitle(
-          item,
-          getValue(item.title).replaceRegex(new RegExp('$', 'ig'), ` ${mod.text}`)
-        )
+        updateTitle(item, getValue(item.title).replaceRegex(new RegExp('$', 'ig'), ` ${mod.text}`))
       );
 
     if (mod.type === 'matches-regex')
@@ -116,24 +111,6 @@ const getSeconds = (duration: number, units: 'seconds' | 'minutes' | 'hours') =>
     case 'hours':
       return duration * 3600;
   }
-};
-
-const parseDuration = (duration: number | string | undefined) => {
-  if (duration === undefined) return duration;
-  if (typeof duration === 'number') return duration;
-
-  if (!duration.match(/^([0-9]{1,2}:){0,2}[0-9]{1,2}$/)) return 0;
-
-  let durationParts = duration.split(':');
-
-  if (durationParts.length === 1) durationParts = ['0', '0', ...durationParts];
-  else if (durationParts.length === 2) durationParts = ['0', ...durationParts];
-
-  return (
-    Number.parseInt(durationParts[0] ?? '0') * 3600 +
-    Number.parseInt(durationParts[1] ?? '0') * 60 +
-    Number.parseInt(durationParts[2] ?? '0')
-  );
 };
 
 export { applyMods };

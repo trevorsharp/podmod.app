@@ -2,12 +2,12 @@ import { z } from 'zod';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import mod from '@/schemas/mod';
 import formSection from '@/utils/formSection';
-import Select from '../elements/Select';
-import Input from '../elements/Input';
-import SectionHeader from '../elements/SectionHeader';
-import AddButton from '../elements/AddButton';
-import DeleteButton from '../elements/DeleteButton';
-import MoveUpButton from '../elements/MoveUpButton';
+import Select from '../components/Select';
+import Input from '../components/Input';
+import SectionHeader from '../components/SectionHeader';
+import AddButton from '../components/AddButton';
+import DeleteButton from '../components/DeleteButton';
+import MoveUpButton from '../components/MoveUpButton';
 
 const modTypeOptions = [
   { value: 'includes-text', label: 'Includes Text' },
@@ -56,7 +56,7 @@ const section = formSection({
 
             return (
               <div
-                className="flex  flex-wrap items-start justify-between gap-3 rounded-md border border-neutral-200 p-3 pb-3 dark:border-neutral-600 md:flex-nowrap md:border-0 md:p-0"
+                className="flex  flex-wrap items-start justify-between gap-3 rounded-md border border-neutral-300 p-3 dark:border-neutral-600 md:flex-nowrap md:border-0 md:p-0"
                 key={field.id}
               >
                 <Select formType={formType} id={`mods.${index}.type`} options={modTypeOptions} />

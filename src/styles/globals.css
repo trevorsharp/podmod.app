@@ -9,3 +9,9 @@ body {
 .flex {
   @apply w-full;
 }
+
+@layer utilities {
+  .half {
+    max-width: calc(50% - 1rem);
+  }
+}

@@ -14,27 +14,41 @@ const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
 const parser = new XMLParser(xmlOptions);
 const builder = new XMLBuilder(xmlOptions);
 
-const fetchFeed = (url: string) =>
-  fetch(url)
-    .then((x) => x.text())
-    .catch(() => {
-      throw 'Error pulling source feed data';
-    });
+const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
+  if (host) {
+    if (feed.rss.channel['atom:link']?._href)
+      feed.rss.channel['atom:link']._href = `https://${host}/api/feed/${feedId}`;
+
+    feed.rss.channel.link = `https://${host}/api/feed/${feedId}/decode`;
+  }
+
+  return builder.build(feed) as string;
+};
+
+const fetchFeedData = async (urls: string[]) => {
+  const [firstFeed, ...otherFeeds] = await Promise.all(
+    urls.map((url) =>
+      fetch(url, {
+        headers: {
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+        },
+      })
+        .then((x) => x.text())
+        .then((x) => parseFeed(x))
+        .catch(() => {
+          throw 'Error pulling source feed data';
+        })
+    ) as unknown as [FeedData, ...FeedData[]]
+  );
+
+  return mergeFeeds(firstFeed, otherFeeds);
+};
 
 const parseFeed = (rawFeed: string): FeedData => {
   const parsedFeed = parser.parse(rawFeed);
   return feedSchema.parse(parsedFeed);
-};
-
-const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
-  if (host) {
-    if (feed.rss.channel['atom:link']?._href)
-      feed.rss.channel['atom:link']._href = `http://${host}/api/feed/${feedId}`;
-
-    feed.rss.channel.link = `http://${host}/api/feed/${feedId}/decode`;
-  }
-
-  return builder.build(feed) as string;
 };
 
 const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData => {
@@ -58,4 +72,4 @@ const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData =
   return newFeed;
 };
 
-export { fetchFeed, parseFeed, buildFeed, mergeFeeds };
+export { fetchFeedData, buildFeed };

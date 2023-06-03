@@ -1,17 +1,22 @@
-import createCompress from 'compress-brotli';
+import brotliPromise from 'brotli-wasm';
 import modConfigSchema from '@/schemas/modConfig';
 import type { ModConfig } from '@/types/ModConfig';
 
-const { compress, decompress } = createCompress();
+const compressModConfig = async (modConfig: ModConfig): Promise<string> => {
+  const brotli = await brotliPromise;
+  const compressedText = brotli.compress(Buffer.from(JSON.stringify(modConfig)));
+  return Buffer.from(compressedText).toString('hex');
+};
 
-const compressModConfig = (modConfig: ModConfig): Promise<string> =>
-  compress(JSON.stringify(modConfig)).then((result) => result.toString('base64url'));
+const decompressModConfig = async (compressedText: string): Promise<ModConfig> => {
+  const brotli = await brotliPromise;
+  const decompressedText = brotli.decompress(Buffer.from(compressedText, 'hex'));
+  const rawModConfig = JSON.parse(Buffer.from(decompressedText).toString());
+  const modConfig = modConfigSchema.safeParse(rawModConfig);
 
-const decompressModConfig = (compressedText: string): Promise<ModConfig> =>
-  decompress(Buffer.from(compressedText, 'base64url'))
-    .then((decompressedText) => modConfigSchema.parse(JSON.parse(decompressedText)))
-    .catch((error) => {
-      throw `Error - Invalid configuration - ${error.message}`;
-    });
+  if (!modConfig.success) throw `Error - Invalid configuration - ${modConfig.error}`;
+
+  return modConfig.data;
+};
 
 export { compressModConfig, decompressModConfig };

@@ -26,6 +26,7 @@ const feed = z
               z
                 .object({
                   title: stringOrCDATA,
+                  pubDate: z.string().optional(),
                   'itunes:title': stringOrCDATA.optional(),
                   'itunes:duration': z.string().or(z.number()).optional(),
                   enclosure: z

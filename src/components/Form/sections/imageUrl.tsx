@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import Input from '../elements/Input';
-import SectionHeader from '../elements/SectionHeader';
+import Input from '../components/Input';
+import SectionHeader from '../components/SectionHeader';
 import url from '@/schemas/url';
 import formSection from '@/utils/formSection';
 
@@ -10,7 +10,7 @@ const section = formSection({
   Component: ({ formType }) => (
     <div className="flex  flex-col gap-4">
       <SectionHeader title="Cover Image" />
-      <Input formType={formType} id="imageUrl" placeholder="Image URL" prefix="http://" />
+      <Input formType={formType} id="imageUrl" placeholder="Image URL" prefix="https://" />
     </div>
   ),
 });

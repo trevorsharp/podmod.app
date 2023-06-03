@@ -28,10 +28,10 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
   useEffect(() => {
     if (
       typeof value === 'string' &&
-      prefix === 'http://' &&
-      (value.startsWith('http://') || value.startsWith('https://'))
+      prefix === 'https://' &&
+      (value.startsWith('https://') || value.startsWith('http://'))
     )
-      setValue(id, value.replace(/^http(s){0,1}:\/\//, ''));
+      setValue(id, value.replace(/^https?:\/\//, ''));
   }, [value, setValue, id, prefix]);
 
   return (

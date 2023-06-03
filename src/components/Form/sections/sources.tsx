@@ -2,10 +2,10 @@ import { z } from 'zod';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import url from '@/schemas/url';
 import formSection from '@/utils/formSection';
-import Input from '../elements/Input';
-import SectionHeader from '../elements/SectionHeader';
-import AddButton from '../elements/AddButton';
-import DeleteButton from '../elements/DeleteButton';
+import Input from '../components/Input';
+import SectionHeader from '../components/SectionHeader';
+import AddButton from '../components/AddButton';
+import DeleteButton from '../components/DeleteButton';
 
 const defaultSource = { url: '' } as const;
 
@@ -35,7 +35,7 @@ const section = formSection({
                 formType={formType}
                 id={`sources.${index}.url`}
                 placeholder="Source URL"
-                prefix="http://"
+                prefix="https://"
               />
               {fields.length > 1 && <DeleteButton onClick={() => remove(index)} />}
             </div>
