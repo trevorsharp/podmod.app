@@ -44,8 +44,8 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
 
   return (
     <div className="2xl:max-h-screen-minus-padding 2xl:min-h-screen-minus-padding flex max-w-md flex-col items-center justify-center gap-3 md:max-w-4xl 2xl:max-w-sm">
-      <h2 className="text-xl font-bold text-podmod">Feed Preview</h2>
-      <div className="flex flex-col items-center gap-12 overflow-y-auto rounded-lg border-2 border-podmod px-6 py-10">
+      <h2 className="text-xl font-bold">Feed Preview</h2>
+      <div className="flex flex-col items-center gap-12 overflow-y-auto rounded-lg border-2 px-6 py-10">
         <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 2xl:flex-col 2xl:gap-8">
           {coverImageUrl && (
             <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/4 2xl:w-7/12 ">
