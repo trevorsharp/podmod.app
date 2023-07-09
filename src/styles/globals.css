@@ -11,7 +11,15 @@ body {
 }
 
 @layer utilities {
-  .half {
+  .max-w-half {
     max-width: calc(50% - 1rem);
+  }
+
+  .min-h-screen-minus-padding {
+    min-height: calc(100vh - 4rem);
+  }
+
+  .max-h-screen-minus-padding {
+    max-height: calc(100vh - 4rem);
   }
 }

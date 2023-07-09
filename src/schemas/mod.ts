@@ -5,7 +5,7 @@ import regexFlags from './regexFlags';
 const mod = z
   .object({
     type: z.literal('includes-text'),
-    text: z.string().min(1, 'Must contain at least 1 character'),
+    text: z.string(),
   })
   .or(
     z.object({
@@ -17,7 +17,7 @@ const mod = z
     z.object({
       type: z.literal('replace-text'),
       text: z.string().min(1, 'Must contain at least 1 character'),
-      replace: z.string().min(1, 'Must contain at least 1 character'),
+      replace: z.string(),
     })
   )
   .or(
@@ -50,7 +50,7 @@ const mod = z
       type: z.literal('replace-regex'),
       regex: regex,
       regexFlags: regexFlags,
-      replace: z.string().min(1, 'Must contain at least 1 character'),
+      replace: z.string(),
     })
   )
   .or(

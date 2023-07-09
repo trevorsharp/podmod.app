@@ -22,17 +22,14 @@ const MainPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex justify-center p-8">
-        <div className="flex flex-col items-center justify-center gap-16 xl:flex-row xl:items-start">
-          <div className="flex max-w-4xl flex-col gap-12">
-            <div className="flex max-w-4xl justify-between">
-              <h1 className="text-2xl font-bold">podmod.app</h1>
-              <button>Open In Podcasts</button>
+        <div className="flex flex-col items-center justify-center gap-16 2xl:flex-row 2xl:items-start">
+          <div className="2xl:min-h-screen-minus-padding flex max-w-5xl flex-col justify-center gap-12">
+            <div className="flex max-w-5xl justify-between">
+              <h1 className="text-5xl font-extrabold">podmod.app</h1>
             </div>
             <Form setModConfig={setModConfig} />
           </div>
-          {modConfig && feedData.data && (
-            <FeedPreview feedData={feedData.data} modConfig={modConfig} />
-          )}
+          <FeedPreview feedData={feedData.data} modConfig={modConfig} />
         </div>
       </main>
     </>

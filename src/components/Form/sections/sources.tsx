@@ -7,25 +7,23 @@ import SectionHeader from '../components/SectionHeader';
 import AddButton from '../components/AddButton';
 import DeleteButton from '../components/DeleteButton';
 
-const defaultSource = { url: '' } as const;
-
 const section = formSection({
   key: 'sources',
-  schema: z.array(z.object({ url: url })).min(1, 'Must contain at least one source'),
-  defaultValue: [defaultSource],
+  schema: z.array(url).min(1, 'Must contain at least one source'),
+  defaultValue: ['https://'],
   Component: ({ formType }) => {
     const { control } = useFormContext();
 
     const { fields, append, remove } = useFieldArray<NonNullable<typeof formType>>({
       control: control,
-      name: 'sources',
+      name: 'sources' as never,
     });
 
     return (
       <div className="flex  flex-col gap-4">
         <SectionHeader
           title="Sources"
-          button={<AddButton onClick={() => append(defaultSource, { shouldFocus: false })} />}
+          button={<AddButton onClick={() => append('https://', { shouldFocus: false })} />}
         />
 
         <div className="flex flex-col gap-2">
@@ -33,7 +31,7 @@ const section = formSection({
             <div className="flex items-start gap-3" key={field.id}>
               <Input
                 formType={formType}
-                id={`sources.${index}.url`}
+                id={`sources.${index}`}
                 placeholder="Source URL"
                 prefix="https://"
               />

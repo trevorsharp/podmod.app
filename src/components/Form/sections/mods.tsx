@@ -33,7 +33,7 @@ const defaultMod = { type: 'includes-text', text: '' } as const;
 
 const section = formSection({
   key: 'mods',
-  schema: z.array(mod).min(1, 'Must contain at least one mod'),
+  schema: z.array(mod),
   defaultValue: [defaultMod],
   Component: ({ formType }) => {
     const { control, watch } = useFormContext<NonNullable<typeof formType>>();

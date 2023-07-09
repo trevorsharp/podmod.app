@@ -4,9 +4,13 @@ import type { FeedData } from '~/types/FeedData';
 import type { FeedItem } from '~/types/FeedItem';
 import { getValue } from '~/utils/getValue';
 import parseDuration from '~/utils/parseDuration';
+import superjson from 'superjson';
 
 const applyMods = (feed: FeedData, modConfig: ModConfig) => {
-  const channel = feed.rss.channel;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  const newFeed = superjson.deserialize(superjson.serialize(feed)) as FeedData;
+
+  const channel = newFeed.rss.channel;
 
   if (modConfig.title) {
     channel.title = { cdata: modConfig.title };
@@ -16,7 +20,7 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
     channel['itunes:image'] = { ...channel['itunes:image'], _href: modConfig.imageUrl };
   }
 
-  modConfig.episodeMods.forEach((mod) => {
+  modConfig.mods?.forEach((mod) => {
     if (mod.type === 'includes-text')
       channel.item = channel.item.filter((item) =>
         getValue(item.title).toLowerCase().includes(mod.text.toLowerCase())
@@ -94,7 +98,7 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
       );
   });
 
-  return feed;
+  return newFeed;
 };
 
 const updateTitle = (item: FeedItem, title: string): FeedItem => ({
