@@ -35,15 +35,15 @@ const fetchFeedData = async (urls: string[]) => {
           'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         },
       })
-        .then((x) => x.text())
-        .then((x) => parseFeed(x))
+        .then((response) => response.text())
+        .then((data) => parseFeed(data))
         .catch(() => {
           throw 'Error pulling source feed data';
         })
-    ) as unknown as [FeedData, ...FeedData[]]
+    )
   );
 
-  if (!firstFeed) return undefined;
+  if (!firstFeed) throw 'Error pulling source feed data';
 
   return mergeFeeds(firstFeed, otherFeeds);
 };
