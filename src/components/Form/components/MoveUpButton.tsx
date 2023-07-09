@@ -8,7 +8,7 @@ type ButtonProps = {
 const MoveUpButton = ({ onClick }: ButtonProps) => (
   <div className="py-1">
     <button
-      className="inline-flex items-center gap-x-2 rounded-md bg-blue-600 px-1.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+      className="inline-flex items-center gap-x-2 rounded-md bg-podmod px-1.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod"
       type="button"
       onClick={onClick}
     >

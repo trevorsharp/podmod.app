@@ -7,7 +7,7 @@ type ButtonProps = {
 
 const AddButton = ({ onClick }: ButtonProps) => (
   <button
-    className="inline-flex items-center rounded-md bg-blue-600 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+    className="inline-flex items-center rounded-md bg-podmod px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod"
     type="button"
     onClick={onClick}
   >

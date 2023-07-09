@@ -25,7 +25,7 @@ const MainPage: NextPage = () => {
         <div className="flex flex-col items-center justify-center gap-16 2xl:flex-row 2xl:items-start">
           <div className="2xl:min-h-screen-minus-padding flex max-w-5xl flex-col justify-center gap-12">
             <div className="flex max-w-5xl justify-between">
-              <h1 className="text-5xl font-extrabold">podmod.app</h1>
+              <h1 className="text-5xl font-extrabold text-podmod">podmod.app</h1>
             </div>
             <Form setModConfig={setModConfig} />
           </div>
