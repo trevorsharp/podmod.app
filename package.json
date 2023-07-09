@@ -1,43 +1,55 @@
 {
   "name": "podmod",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "prettier": "prettier --write './src/**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
-    "@heroicons/react": "^2.0.18",
+    "@heroicons/react": "2.0.18",
     "@hookform/error-message": "2.0.1",
     "@hookform/resolvers": "3.1.0",
-    "@tailwindcss/forms": "^0.5.3",
-    "brotli-wasm": "^1.3.1",
-    "clsx": "^1.2.1",
+    "@t3-oss/env-nextjs": "0.3.1",
+    "@tailwindcss/forms": "0.5.3",
+    "@tanstack/react-query": "4.29.7",
+    "@trpc/client": "10.26.0",
+    "@trpc/next": "10.26.0",
+    "@trpc/react-query": "10.26.0",
+    "@trpc/server": "10.26.0",
+    "brotli-wasm": "1.3.1",
+    "clsx": "1.2.1",
     "fast-xml-parser": "4.0.12",
-    "next": "13.0.2",
-    "react": "18.2.0",
+    "next": "13.4.2",
     "react-dom": "18.2.0",
     "react-hook-form": "7.44.2",
-    "zod": "3.20.2"
+    "react": "18.2.0",
+    "superjson": "1.12.2",
+    "zod": "3.21.4"
   },
   "devDependencies": {
-    "@types/node": "18.0.0",
-    "@types/react": "18.0.14",
-    "@types/react-dom": "18.0.5",
-    "@typescript-eslint/eslint-plugin": "5.59.7",
-    "@typescript-eslint/parser": "5.59.7",
-    "autoprefixer": "10.4.7",
-    "eslint": "8.41.0",
-    "eslint-config-next": "13.0.2",
-    "postcss": "8.4.14",
-    "prettier": "2.8.1",
-    "prettier-plugin-tailwindcss": "0.1.13",
-    "tailwindcss": "3.3.2",
+    "@types/eslint": "8.37.0",
+    "@types/node": "18.16.0",
+    "@types/prettier": "2.7.2",
+    "@types/react": "18.2.6",
+    "@types/react-dom": "18.2.4",
+    "@typescript-eslint/eslint-plugin": "5.59.6",
+    "@typescript-eslint/parser": "5.59.6",
+    "autoprefixer": "10.4.14",
+    "eslint": "8.40.0",
+    "eslint-config-next": "13.4.2",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "postcss": "8.4.21",
+    "prettier": "2.8.8",
+    "prettier-plugin-tailwindcss": "0.2.8",
+    "tailwindcss": "3.3.0",
     "typescript": "5.0.4"
   },
   "ct3aMetadata": {
-    "initVersion": "6.11.3"
+    "initVersion": "7.15.0"
   }
 }

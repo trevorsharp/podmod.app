@@ -1,4 +1,4 @@
-import type { StringOrCDATA } from '@/types/StringOrCDATA';
+import type { StringOrCDATA } from '~/types/StringOrCDATA';
 
 export const getValue = <T extends StringOrCDATA | undefined>(
   rawValue: T

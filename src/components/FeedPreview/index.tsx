@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import type { FeedData } from '@/types/FeedData';
+import type { FeedData } from '~/types/FeedData';
 import EpisodeCard from './components/EpisodeCard';
-import { getValue } from '@/utils/getValue';
-import parseDuration from '@/utils/parseDuration';
+import { getValue } from '~/utils/getValue';
+import parseDuration from '~/utils/parseDuration';
 
 type FeedPreviewProps = {
   feedData: FeedData;
@@ -18,7 +18,7 @@ const FeedPreview = ({ feedData }: FeedPreviewProps) => {
   );
 
   return (
-    <div className="flex max-w-md flex-col items-center gap-12 rounded-lg border border-neutral-300 px-6 py-10 dark:border-neutral-400 md:max-w-4xl xl:max-w-sm">
+    <div className="flex max-h-[90vh] max-w-md flex-col items-center gap-12 overflow-y-auto rounded-lg border border-neutral-300 px-6 py-10 dark:border-neutral-400 md:max-w-4xl xl:max-w-sm">
       <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 xl:flex-col xl:gap-8">
         {coverImageUrl && (
           <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/4 xl:w-7/12 ">

@@ -1,7 +1,7 @@
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import type { X2jOptions, XmlBuilderOptions } from 'fast-xml-parser';
-import feedSchema from '@/schemas/feed';
-import type { FeedData } from '@/types/FeedData';
+import feedSchema from '~/schemas/feed';
+import type { FeedData } from '~/types/FeedData';
 
 const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
   ignoreAttributes: false,
@@ -43,18 +43,20 @@ const fetchFeedData = async (urls: string[]) => {
     ) as unknown as [FeedData, ...FeedData[]]
   );
 
+  if (!firstFeed) return undefined;
+
   return mergeFeeds(firstFeed, otherFeeds);
 };
 
 const parseFeed = (rawFeed: string): FeedData => {
-  const parsedFeed = parser.parse(rawFeed);
+  const parsedFeed = parser.parse(rawFeed) as unknown;
   return feedSchema.parse(parsedFeed);
 };
 
-const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData => {
+const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]) => {
   if (additionalFeeds.length === 0) return mainFeed;
 
-  const newFeed = feedSchema.parse(JSON.parse(JSON.stringify(mainFeed)));
+  const newFeed: FeedData = feedSchema.parse(JSON.parse(JSON.stringify(mainFeed)));
 
   additionalFeeds.forEach((feed) => {
     newFeed.rss = { ...feed.rss, ...newFeed.rss };

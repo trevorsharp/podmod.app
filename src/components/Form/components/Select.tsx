@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 import type { FieldValues } from 'react-hook-form';
-import type { FieldKey } from '@/types/FieldKey';
+import type { FieldKey } from '~/types/FieldKey';
 
 type SelectProps<T extends FieldValues, TValue extends string> = {
   formType: T | undefined;

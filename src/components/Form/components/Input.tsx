@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { get, useFormContext } from 'react-hook-form';
 import type { FieldValues } from 'react-hook-form';
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import type { FieldKey } from '@/types/FieldKey';
+import type { FieldKey } from '~/types/FieldKey';
 import { useEffect } from 'react';
 
 type InputProps<T extends FieldValues> = {
@@ -21,7 +23,7 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
     setValue,
   } = useFormContext();
 
-  const { message: errorMessage } = get(errors, id) ?? {};
+  const { message: errorMessage } = (get(errors, id) as { message: string }) ?? {};
 
   const value = watch(id);
 

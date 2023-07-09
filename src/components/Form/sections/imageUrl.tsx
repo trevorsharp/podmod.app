@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import Input from '../components/Input';
 import SectionHeader from '../components/SectionHeader';
-import url from '@/schemas/url';
-import formSection from '@/utils/formSection';
+import url from '~/schemas/url';
+import formSection from '~/utils/formSection';
 
 const section = formSection({
   key: 'imageUrl',

@@ -1,8 +1,8 @@
-import type { ModConfig } from '@/types/ModConfig';
-import type { FeedData } from '@/types/FeedData';
-import type { FeedItem } from '@/types/FeedItem';
-import { getValue } from '@/utils/getValue';
-import parseDuration from '@/utils/parseDuration';
+import type { ModConfig } from '~/types/ModConfig';
+import type { FeedData } from '~/types/FeedData';
+import type { FeedItem } from '~/types/FeedItem';
+import { getValue } from '~/utils/getValue';
+import parseDuration from '~/utils/parseDuration';
 
 const applyMods = (feed: FeedData, modConfig: ModConfig) => {
   const channel = feed.rss.channel;

@@ -1,12 +1,18 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { ModConfig } from '~/types/ModConfig';
 import sources from './sections/sources';
 import title from './sections/title';
 import imageUrl from './sections/imageUrl';
 import mods from './sections/mods';
 
-const Form = () => {
+type FormProps = {
+  setModConfig: (_: ModConfig | undefined) => void;
+};
+
+const Form = ({ setModConfig }: FormProps) => {
   const form = useForm({
     resolver: zodResolver(
       z.object({}).and(sources.schema).and(title.schema).and(imageUrl.schema).and(mods.schema)
@@ -21,7 +27,15 @@ const Form = () => {
 
   const onSubmit = form.handleSubmit(
     (formValues) => {
-      console.log('Valid', formValues);
+      const modConfig: ModConfig = {
+        version: 'v1',
+        sources: formValues.sources?.map((source) => source.url) ?? [],
+        title: formValues.title,
+        imageUrl: formValues.imageUrl,
+        episodeMods: formValues.mods ?? [],
+      };
+
+      setModConfig(modConfig);
     },
     (formValues) => {
       console.log('Invalid', formValues);

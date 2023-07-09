@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import mod from '@/schemas/mod';
-import formSection from '@/utils/formSection';
+import mod from '~/schemas/mod';
+import formSection from '~/utils/formSection';
 import Select from '../components/Select';
 import Input from '../components/Input';
 import SectionHeader from '../components/SectionHeader';

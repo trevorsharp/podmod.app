@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import Input from '../components/Input';
 import SectionHeader from '../components/SectionHeader';
-import formSection from '@/utils/formSection';
+import formSection from '~/utils/formSection';
 
 const section = formSection({
   key: 'title',

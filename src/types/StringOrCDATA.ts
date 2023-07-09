@@ -1,5 +1,5 @@
 import type z from 'zod';
-import type stringOrCDATA from '@/schemas/stringOrCDATA';
+import type stringOrCDATA from '~/schemas/stringOrCDATA';
 
 type StringOrCDATA = z.infer<typeof stringOrCDATA>;
 
