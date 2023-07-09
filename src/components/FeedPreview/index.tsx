@@ -7,12 +7,12 @@ import type { FeedData } from '~/types/FeedData';
 import type { ModConfig } from '~/types/ModConfig';
 
 type FeedPreviewProps = {
-  feedData: FeedData | undefined;
+  sourceFeedData: FeedData | undefined;
   modConfig: ModConfig | undefined;
 };
 
-const FeedPreview = ({ feedData, modConfig }: FeedPreviewProps) => {
-  if (!feedData || !modConfig)
+const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
+  if (!sourceFeedData || !modConfig)
     return (
       <div className="2xl:max-h-screen-minus-padding 2xl:min-h-screen-minus-padding flex max-w-md flex-col items-center justify-center md:max-w-4xl 2xl:max-w-sm">
         <div className="flex flex-col items-center gap-12 overflow-y-auto rounded-lg border border-neutral-300 px-6 py-10 dark:border-neutral-400">
@@ -32,11 +32,11 @@ const FeedPreview = ({ feedData, modConfig }: FeedPreviewProps) => {
       </div>
     );
 
-  const moddedFeedData = applyMods(feedData, modConfig);
+  const feedData = applyMods(sourceFeedData, modConfig);
 
-  const coverImageUrl = moddedFeedData.rss.channel['itunes:image']?._href;
-  const feedTitle = getValue(moddedFeedData.rss.channel.title);
-  const episodes = moddedFeedData.rss.channel.item.sort((a, b) =>
+  const coverImageUrl = feedData.rss.channel['itunes:image']?._href;
+  const feedTitle = getValue(feedData.rss.channel.title);
+  const episodes = feedData.rss.channel.item.sort((a, b) =>
     a.pubDate && b.pubDate && new Date(a.pubDate).toISOString() > new Date(b.pubDate).toISOString()
       ? -1
       : 1
