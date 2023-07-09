@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { LinkIcon } from '@heroicons/react/20/solid';
 
 type ButtonProps = {
   defaultText: string;
@@ -21,14 +22,17 @@ const CopyButton = ({ defaultText, textToCopy, disabled = false }: ButtonProps) 
   return (
     <button
       className={clsx(
-        'w-full rounded-md bg-podmod px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod sm:w-48',
+        'w-full rounded-md bg-podmod px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod sm:w-52',
         disabled && 'hidden'
       )}
       type="button"
       disabled={disabled}
       onClick={onClick}
     >
-      {buttonText}
+      <div className="flex items-center justify-center gap-3">
+        <LinkIcon className="h-4 w-4" />
+        {buttonText}
+      </div>
     </button>
   );
 };

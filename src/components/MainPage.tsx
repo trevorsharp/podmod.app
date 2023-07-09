@@ -40,7 +40,7 @@ const MainPage: NextPage = () => {
               <CopyButton
                 defaultText="Copy Feed URL"
                 textToCopy={`${window.location.origin}/${feedId.data ?? ''}/feed`}
-                disabled={feedId.isLoading || !feedId.data}
+                disabled={!feedId.data}
               />
             </div>
             <Form setModConfig={setModConfig} />
