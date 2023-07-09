@@ -8,9 +8,10 @@ import type { ModConfig } from '~/types/ModConfig';
 
 const MainPage: NextPage = () => {
   const [modConfig, setModConfig] = useState<ModConfig | undefined>(undefined);
+
   const feedData = api.feed.getFeedForSources.useQuery(
     { sources: modConfig?.sources ?? [] },
-    { enabled: !!modConfig }
+    { enabled: !!modConfig, retry: 1, refetchOnWindowFocus: false }
   );
 
   return (
@@ -29,7 +30,9 @@ const MainPage: NextPage = () => {
             </div>
             <Form setModConfig={setModConfig} />
           </div>
-          {feedData.data && <FeedPreview feedData={feedData.data} />}
+          {modConfig && feedData.data && (
+            <FeedPreview feedData={feedData.data} modConfig={modConfig} />
+          )}
         </div>
       </main>
     </>

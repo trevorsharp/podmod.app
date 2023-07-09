@@ -25,21 +25,14 @@ const Form = ({ setModConfig }: FormProps) => {
     },
   });
 
-  const onSubmit = form.handleSubmit(
-    (formValues) => {
-      const modConfig: ModConfig = {
-        version: 'v1',
-        sources: formValues.sources?.map((source) => source.url) ?? [],
-        title: formValues.title,
-        imageUrl: formValues.imageUrl,
-        episodeMods: formValues.mods ?? [],
-      };
-
-      setModConfig(modConfig);
-    },
-    (formValues) => {
-      console.log('Invalid', formValues);
-    }
+  const onSubmit = form.handleSubmit((formValues) =>
+    setModConfig({
+      version: 'v1',
+      sources: formValues.sources?.map((source) => source.url) ?? [],
+      title: formValues.title,
+      imageUrl: formValues.imageUrl,
+      episodeMods: formValues.mods ?? [],
+    })
   );
 
   return (

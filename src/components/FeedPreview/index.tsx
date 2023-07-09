@@ -1,14 +1,19 @@
 import Image from 'next/image';
-import type { FeedData } from '~/types/FeedData';
 import EpisodeCard from './components/EpisodeCard';
 import { getValue } from '~/utils/getValue';
 import parseDuration from '~/utils/parseDuration';
+import { applyMods } from '~/services/modService';
+import type { FeedData } from '~/types/FeedData';
+import type { ModConfig } from '~/types/ModConfig';
 
 type FeedPreviewProps = {
   feedData: FeedData;
+  modConfig: ModConfig;
 };
 
-const FeedPreview = ({ feedData }: FeedPreviewProps) => {
+const FeedPreview = ({ feedData: unmoddifiedFeedData, modConfig }: FeedPreviewProps) => {
+  const feedData = applyMods(unmoddifiedFeedData, modConfig);
+
   const coverImageUrl = feedData.rss.channel['itunes:image']?._href;
   const feedTitle = getValue(feedData.rss.channel.title);
   const episodes = feedData.rss.channel.item.sort((a, b) =>

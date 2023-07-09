@@ -1,3 +1,4 @@
+import {} from '~/extensions';
 import type { ModConfig } from '~/types/ModConfig';
 import type { FeedData } from '~/types/FeedData';
 import type { FeedItem } from '~/types/FeedItem';
