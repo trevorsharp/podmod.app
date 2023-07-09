@@ -29,7 +29,7 @@ const MainPage: NextPage = () => {
         <title>podmod.app</title>
       </Head>
 
-      <main className="flex min-h-screen justify-center p-8">
+      <div className="flex min-h-screen justify-center p-8">
         <div className="flex flex-col items-center justify-center gap-16 2xl:flex-row 2xl:items-start">
           <div className="2xl:min-h-screen-minus-padding flex max-w-5xl flex-col justify-center gap-12">
             <div className="flex max-w-5xl flex-wrap justify-between gap-6 sm:flex-nowrap">
@@ -47,7 +47,7 @@ const MainPage: NextPage = () => {
           </div>
           <FeedPreview sourceFeedData={sourceFeedData} modConfig={modConfig} />
         </div>
-      </main>
+      </div>
     </>
   );
 };
