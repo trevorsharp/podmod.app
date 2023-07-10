@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-white text-neutral-800 dark:bg-neutral-900 dark:text-white;
+}
+
+.flex {
+  @apply w-full;
+}
+
+@layer utilities {
+  .max-w-half {
+    max-width: calc(50% - 1rem);
+  }
+
+  .min-h-screen-minus-padding {
+    min-height: calc(100vh - 4rem);
+  }
+
+  .max-h-screen-minus-padding {
+    max-height: calc(100vh - 4rem);
+  }
+}

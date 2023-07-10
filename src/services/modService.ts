@@ -1,8 +1,9 @@
-import type { ModConfig } from '../types/mods';
-import type { FeedData } from '../types/feeds';
-import { getValue } from '../utils/getValue';
-
-type FeedItem = FeedData['rss']['channel']['item'][number];
+import superjson from 'superjson';
+import getValue from '~/utils/getValue';
+import parseDuration from '~/utils/parseDuration';
+import type { FeedData } from '~/types/FeedData';
+import type { FeedItem } from '~/types/FeedItem';
+import type { ModConfig } from '~/types/ModConfig';
 
 declare global {
   interface String {
@@ -13,15 +14,17 @@ declare global {
 Object.defineProperty(String.prototype, 'replaceRegex', {
   value: function (regex: RegExp, replacementText: string) {
     return regex.global
-      ? this.replaceAll(regex, replacementText)
-      : this.replace(regex, replacementText);
+      ? (this as string).replaceAll(regex, replacementText)
+      : (this as string).replace(regex, replacementText);
   },
   writable: true,
   configurable: true,
 });
 
 const applyMods = (feed: FeedData, modConfig: ModConfig) => {
-  const channel = feed.rss.channel;
+  const newFeed = superjson.deserialize<FeedData>(superjson.serialize(feed));
+
+  const channel = newFeed.rss.channel;
 
   if (modConfig.title) {
     channel.title = { cdata: modConfig.title };
@@ -31,7 +34,7 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
     channel['itunes:image'] = { ...channel['itunes:image'], _href: modConfig.imageUrl };
   }
 
-  modConfig.episodeMods.forEach((mod) => {
+  modConfig.mods?.forEach((mod) => {
     if (mod.type === 'includes-text')
       channel.item = channel.item.filter((item) =>
         getValue(item.title).toLowerCase().includes(mod.text.toLowerCase())
@@ -76,14 +79,14 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
 
     if (mod.type === 'matches-regex')
       channel.item = channel.item.filter(
-        (item) => getValue(item.title).match(new RegExp(mod.regex, mod.regexOptions)) !== null
+        (item) => getValue(item.title).match(new RegExp(mod.regex, mod.regexFlags)) !== null
       );
 
     if (mod.type === 'replace-regex')
       channel.item = channel.item.map((item) =>
         updateTitle(
           item,
-          getValue(item.title).replaceRegex(new RegExp(mod.regex, mod.regexOptions), mod.replace)
+          getValue(item.title).replaceRegex(new RegExp(mod.regex, mod.regexFlags), mod.replace)
         )
       );
 
@@ -91,7 +94,7 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
       channel.item = channel.item.map((item) =>
         updateTitle(
           item,
-          getValue(item.title).replaceRegex(new RegExp(mod.regex, mod.regexOptions), '')
+          getValue(item.title).replaceRegex(new RegExp(mod.regex, mod.regexFlags), '')
         )
       );
 
@@ -109,7 +112,7 @@ const applyMods = (feed: FeedData, modConfig: ModConfig) => {
       );
   });
 
-  return feed;
+  return newFeed;
 };
 
 const updateTitle = (item: FeedItem, title: string): FeedItem => ({
@@ -127,24 +130,6 @@ const getSeconds = (duration: number, units: 'seconds' | 'minutes' | 'hours') =>
     case 'hours':
       return duration * 3600;
   }
-};
-
-const parseDuration = (duration: number | string | undefined) => {
-  if (duration === undefined) return duration;
-  if (typeof duration === 'number') return duration;
-
-  if (!duration.match(/^([0-9]{1,2}:){0,2}[0-9]{1,2}$/)) return 0;
-
-  let durationParts = duration.split(':');
-
-  if (durationParts.length === 1) durationParts = ['0', '0', ...durationParts];
-  else if (durationParts.length === 2) durationParts = ['0', ...durationParts];
-
-  return (
-    Number.parseInt(durationParts[0] ?? '0') * 3600 +
-    Number.parseInt(durationParts[1] ?? '0') * 60 +
-    Number.parseInt(durationParts[2] ?? '0')
-  );
 };
 
 export { applyMods };

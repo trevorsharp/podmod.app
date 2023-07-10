@@ -1,8 +1,7 @@
-import { XMLParser, XMLBuilder } from 'fast-xml-parser';
+import { XMLBuilder, XMLParser } from 'fast-xml-parser';
+import feedSchema from '~/schemas/feed';
 import type { X2jOptions, XmlBuilderOptions } from 'fast-xml-parser';
-import { feedSchema } from '../types/feeds';
-import type { FeedData } from '../types/feeds';
-import { getValue } from '../utils/getValue';
+import type { FeedData } from '~/types/FeedData';
 
 const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
   ignoreAttributes: false,
@@ -15,33 +14,49 @@ const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
 const parser = new XMLParser(xmlOptions);
 const builder = new XMLBuilder(xmlOptions);
 
-const fetchFeed = (url: string) =>
-  fetch(url)
-    .then((x) => x.text())
-    .catch(() => {
-      throw 'Error pulling source feed data';
-    });
-
-const parseFeed = (rawFeed: string): FeedData => {
-  const parsedFeed = parser.parse(rawFeed);
-  return feedSchema.parse(parsedFeed);
-};
-
 const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
   if (host) {
     if (feed.rss.channel['atom:link']?._href)
-      feed.rss.channel['atom:link']._href = `http://${host}/api/feed/${feedId}`;
+      feed.rss.channel['atom:link']._href = `https://${host}/api/feed/${feedId}`;
 
-    feed.rss.channel.link = `http://${host}/api/feed/${feedId}/decode`;
+    feed.rss.channel.link = `https://${host}/api/feed/${feedId}/decode`;
   }
 
   return builder.build(feed) as string;
 };
 
-const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData => {
+const fetchFeedData = async (urls: string[]) => {
+  const [firstFeed, ...otherFeeds] = await Promise.all(
+    urls.map((url) =>
+      fetch(url, {
+        headers: {
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+        },
+      })
+        .then((response) => response.text())
+        .then((data) => parseFeed(data))
+        .catch(() => {
+          throw 'Error pulling source feed data';
+        })
+    )
+  );
+
+  if (!firstFeed) throw 'Error pulling source feed data';
+
+  return mergeFeeds(firstFeed, otherFeeds);
+};
+
+const parseFeed = (rawFeed: string): FeedData => {
+  const parsedFeed = parser.parse(rawFeed) as unknown;
+  return feedSchema.parse(parsedFeed);
+};
+
+const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]) => {
   if (additionalFeeds.length === 0) return mainFeed;
 
-  const newFeed = feedSchema.parse(JSON.parse(JSON.stringify(mainFeed)));
+  const newFeed: FeedData = feedSchema.parse(JSON.parse(JSON.stringify(mainFeed)));
 
   additionalFeeds.forEach((feed) => {
     newFeed.rss = { ...feed.rss, ...newFeed.rss };
@@ -59,4 +74,4 @@ const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]): FeedData =
   return newFeed;
 };
 
-export { fetchFeed, parseFeed, buildFeed, mergeFeeds };
+export { buildFeed, fetchFeedData };

@@ -1,15 +1,7 @@
 import z from 'zod';
+import stringOrCDATA from './stringOrCDATA';
 
-const stringOrCDATA = z
-  .string()
-  .min(1)
-  .or(
-    z.object({
-      cdata: z.string().min(1),
-    })
-  );
-
-const feedSchema = z
+const feed = z
   .object({
     '?xml': z.object({}).passthrough(),
     rss: z
@@ -34,6 +26,7 @@ const feedSchema = z
               z
                 .object({
                   title: stringOrCDATA,
+                  pubDate: z.string().optional(),
                   'itunes:title': stringOrCDATA.optional(),
                   'itunes:duration': z.string().or(z.number()).optional(),
                   enclosure: z
@@ -52,8 +45,4 @@ const feedSchema = z
   })
   .passthrough();
 
-type StringOrCDATA = z.infer<typeof stringOrCDATA>;
-type FeedData = z.infer<typeof feedSchema>;
-
-export { feedSchema };
-export type { FeedData, StringOrCDATA };
+export default feed;

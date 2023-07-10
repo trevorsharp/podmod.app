@@ -1,9 +1,12 @@
-import { type AppType } from 'next/dist/shared/lib/utils';
-
-import '../styles/globals.css';
+import { useEffect, useState } from 'react';
+import '~/styles/globals.css';
+import { api } from '~/utils/api';
+import type { AppType } from 'next/app';
 
 const App: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+  const [render, setRender] = useState(false);
+  useEffect(() => setRender(true), []);
+  return render ? <Component {...pageProps} /> : null;
 };
 
-export default App;
+export default api.withTRPC(App);
