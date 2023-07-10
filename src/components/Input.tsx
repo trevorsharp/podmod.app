@@ -26,11 +26,7 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
   const value = watch(id);
 
   useEffect(() => {
-    if (
-      typeof value === 'string' &&
-      prefix === 'https://' &&
-      ((value as string).startsWith('https://') || (value as string).startsWith('http://'))
-    )
+    if (typeof value === 'string' && prefix === 'https://')
       setValue(id, (value as string).replace(/^https?:\/\//, '') as PathValue<T, FieldKey<T>>);
   }, [value]);
 

@@ -44,10 +44,7 @@ const MainPage: NextPage = () => {
                 </button>
                 <h1 className="text:lg font-extrabold xs:text-xl">BETA</h1>
               </div>
-              <CopyFeedButton
-                textToCopy={`${window.location.origin}/${feedId}/feed`}
-                disabled={!feedId}
-              />
+              {feedId && <CopyFeedButton textToCopy={`${window.location.origin}/${feedId}/feed`} />}
             </div>
             <Form setModConfig={setModConfig} />
           </div>
