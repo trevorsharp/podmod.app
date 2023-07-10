@@ -62,7 +62,7 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
         <div className="flex flex-wrap justify-between gap-8">
           {episodes.map((episode) => (
             <EpisodeCard
-              key={episode.pubDate ?? episode.enclosure?._url}
+              key={episode['podmod-key']}
               title={getValue(episode.title)}
               date={episode.pubDate}
               duration={parseDuration(episode['itunes:duration'])}

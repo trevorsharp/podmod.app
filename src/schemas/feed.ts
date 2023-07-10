@@ -35,6 +35,10 @@ const feed = z
                     })
                     .passthrough()
                     .optional(),
+                  'podmod-key': z
+                    .string()
+                    .optional()
+                    .transform(() => crypto.randomUUID()),
                 })
                 .passthrough()
             ),
