@@ -38,7 +38,7 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
   );
 
   return (
-    <div className="2xl:h-feed-preview flex max-w-md flex-col items-center gap-12 self-start overflow-y-auto p-6 md:max-w-4xl 2xl:max-w-sm">
+    <div className="2xl:h-feed-preview flex max-w-md flex-col items-center gap-12 overflow-y-auto p-6 md:max-w-4xl 2xl:max-w-sm">
       <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 2xl:flex-col 2xl:gap-8">
         <div className="md:w-two-column flex justify-center md:justify-end 2xl:max-w-full 2xl:justify-center">
           <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/2 2xl:w-7/12 ">
