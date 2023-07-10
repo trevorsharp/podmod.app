@@ -17,9 +17,9 @@ const builder = new XMLBuilder(xmlOptions);
 const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
   if (host) {
     if (feed.rss.channel['atom:link']?._href)
-      feed.rss.channel['atom:link']._href = `https://${host}/api/feed/${feedId}`;
+      feed.rss.channel['atom:link']._href = `http://${host}/${feedId}/feed`;
 
-    feed.rss.channel.link = `https://${host}/api/feed/${feedId}/decode`;
+    feed.rss.channel.link = `http://${host}/${feedId}`;
   }
 
   return builder.build(feed) as string;
