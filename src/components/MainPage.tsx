@@ -1,27 +1,26 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import type { NextPage } from 'next';
 import Link from 'next/link';
-import FeedPreview from '~/components/FeedPreview';
-import Form from '~/components/Form';
+import { compressModConfig } from '~/services/compressionService';
 import { api } from '~/utils/api';
-import { useState } from 'react';
+import CopyFeedButton from './CopyFeedButton';
+import FeedPreview from './FeedPreview';
+import Form from './Form';
+import type { NextPage } from 'next';
 import type { ModConfig } from '~/types/ModConfig';
-import CopyButton from './CopyButton';
 
 const MainPage: NextPage = () => {
   const [modConfig, setModConfig] = useState<ModConfig | undefined>(undefined);
+  const [feedId, setFeedId] = useState<string>('');
 
   const { data: sourceFeedData } = api.feed.getFeedForSources.useQuery(
     { sources: modConfig?.sources ?? [] },
     { enabled: !!modConfig, retry: 1, refetchOnWindowFocus: false }
   );
 
-  const feedId = api.feed.getFeedId.useQuery(
-    { modConfig },
-    { enabled: !!modConfig, retry: 1, refetchOnWindowFocus: false }
-  );
-
-  console.log(feedId.data);
+  useEffect(() => {
+    if (modConfig) void compressModConfig(modConfig).then((newFeedId) => setFeedId(newFeedId));
+  }, [modConfig]);
 
   return (
     <>
@@ -37,10 +36,9 @@ const MainPage: NextPage = () => {
                 <h1 className="text-5xl font-extrabold text-podmod">podmod.app</h1>
                 <h1 className="text-xl font-extrabold">BETA</h1>
               </Link>
-              <CopyButton
-                defaultText="Copy Feed URL"
-                textToCopy={`${window.location.origin}/${feedId.data ?? ''}/feed`}
-                disabled={!feedId.data}
+              <CopyFeedButton
+                textToCopy={`${window.location.origin}/${feedId}/feed`}
+                disabled={!feedId}
               />
             </div>
             <Form setModConfig={setModConfig} />

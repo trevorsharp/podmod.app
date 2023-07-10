@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from 'zod';
 import stringOrCDATA from './stringOrCDATA';
 
 const feed = z

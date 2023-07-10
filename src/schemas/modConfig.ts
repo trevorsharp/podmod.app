@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from 'zod';
 import mod from './mod';
 import url from './url';
 

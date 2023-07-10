@@ -1,14 +1,28 @@
-import {} from '~/extensions';
-import type { ModConfig } from '~/types/ModConfig';
+import superjson from 'superjson';
+import getValue from '~/utils/getValue';
+import parseDuration from '~/utils/parseDuration';
 import type { FeedData } from '~/types/FeedData';
 import type { FeedItem } from '~/types/FeedItem';
-import { getValue } from '~/utils/getValue';
-import parseDuration from '~/utils/parseDuration';
-import superjson from 'superjson';
+import type { ModConfig } from '~/types/ModConfig';
+
+declare global {
+  interface String {
+    replaceRegex(regex: RegExp, replacementText: string): string;
+  }
+}
+
+Object.defineProperty(String.prototype, 'replaceRegex', {
+  value: function (regex: RegExp, replacementText: string) {
+    return regex.global
+      ? (this as string).replaceAll(regex, replacementText)
+      : (this as string).replace(regex, replacementText);
+  },
+  writable: true,
+  configurable: true,
+});
 
 const applyMods = (feed: FeedData, modConfig: ModConfig) => {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  const newFeed = superjson.deserialize(superjson.serialize(feed)) as FeedData;
+  const newFeed = superjson.deserialize<FeedData>(superjson.serialize(feed));
 
   const channel = newFeed.rss.channel;
 

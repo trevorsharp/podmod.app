@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-import { z } from 'zod';
+import { useEffect } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { ModConfig } from '~/types/ModConfig';
-import sources from './sections/sources';
-import title from './sections/title';
-import imageUrl from './sections/imageUrl';
-import mods from './sections/mods';
-import { useEffect } from 'react';
+import z from 'zod';
+import imageUrl from '~/formSections/imageUrl';
+import mods from '~/formSections/mods';
+import sources from '~/formSections/sources';
+import title from '~/formSections/title';
 import modConfigSchema from '~/schemas/modConfig';
+import type { ModConfig } from '~/types/ModConfig';
 
 type FormProps = {
   setModConfig: (_: ModConfig | undefined) => void;

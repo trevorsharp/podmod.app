@@ -1,13 +1,13 @@
-import { z } from 'zod';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import z from 'zod';
+import AddButton from '~/components/AddButton';
+import DeleteButton from '~/components/DeleteButton';
+import Input from '~/components/Input';
+import MoveUpButton from '~/components/MoveUpButton';
+import SectionHeader from '~/components/SectionHeader';
+import Select from '~/components/Select';
 import mod from '~/schemas/mod';
 import formSection from '~/utils/formSection';
-import Select from '../components/Select';
-import Input from '../components/Input';
-import SectionHeader from '../components/SectionHeader';
-import AddButton from '../components/AddButton';
-import DeleteButton from '../components/DeleteButton';
-import MoveUpButton from '../components/MoveUpButton';
 
 const modTypeOptions = [
   { value: 'includes-text', label: 'Includes Text' },

@@ -1,14 +1,15 @@
-import clsx from 'clsx';
 import { useState } from 'react';
 import { LinkIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 
 type ButtonProps = {
-  defaultText: string;
   textToCopy: string;
   disabled?: boolean;
 };
 
-const CopyButton = ({ defaultText, textToCopy, disabled = false }: ButtonProps) => {
+const CopyFeedButton = ({ textToCopy, disabled = false }: ButtonProps) => {
+  const defaultText = 'Copy Feed URL';
+
   const [buttonText, setButtonText] = useState<string>(defaultText);
 
   const onClick = () => {
@@ -37,4 +38,4 @@ const CopyButton = ({ defaultText, textToCopy, disabled = false }: ButtonProps) 
   );
 };
 
-export default CopyButton;
+export default CopyFeedButton;

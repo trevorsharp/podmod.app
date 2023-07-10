@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from 'zod';
 import type { FieldValues } from 'react-hook-form';
 
 type SectionProps<T extends FieldValues> = {

@@ -1,6 +1,6 @@
-import { XMLParser, XMLBuilder } from 'fast-xml-parser';
-import type { X2jOptions, XmlBuilderOptions } from 'fast-xml-parser';
+import { XMLBuilder, XMLParser } from 'fast-xml-parser';
 import feedSchema from '~/schemas/feed';
+import type { X2jOptions, XmlBuilderOptions } from 'fast-xml-parser';
 import type { FeedData } from '~/types/FeedData';
 
 const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
@@ -74,4 +74,4 @@ const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]) => {
   return newFeed;
 };
 
-export { fetchFeedData, buildFeed };
+export { buildFeed, fetchFeedData };

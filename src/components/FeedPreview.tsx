@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import EpisodeCard from './components/EpisodeCard';
-import { getValue } from '~/utils/getValue';
-import parseDuration from '~/utils/parseDuration';
 import { applyMods } from '~/services/modService';
+import getValue from '~/utils/getValue';
+import parseDuration from '~/utils/parseDuration';
+import EpisodeCard from './EpisodeCard';
 import type { FeedData } from '~/types/FeedData';
 import type { ModConfig } from '~/types/ModConfig';
 

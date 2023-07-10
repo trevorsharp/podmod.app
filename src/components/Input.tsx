@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { useEffect } from 'react';
 import { get, useFormContext } from 'react-hook-form';
-import type { FieldValues } from 'react-hook-form';
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
+import type { FieldValues, PathValue } from 'react-hook-form';
 import type { FieldKey } from '~/types/FieldKey';
-import { useEffect } from 'react';
 
 type InputProps<T extends FieldValues> = {
   formType: T | undefined;
@@ -21,7 +19,7 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
     formState: { errors },
     watch,
     setValue,
-  } = useFormContext();
+  } = useFormContext<T>();
 
   const { message: errorMessage } = (get(errors, id) as { message: string }) ?? {};
 
@@ -31,9 +29,9 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
     if (
       typeof value === 'string' &&
       prefix === 'https://' &&
-      (value.startsWith('https://') || value.startsWith('http://'))
+      ((value as string).startsWith('https://') || (value as string).startsWith('http://'))
     )
-      setValue(id, value.replace(/^https?:\/\//, ''));
+      setValue(id, (value as string).replace(/^https?:\/\//, '') as PathValue<T, FieldKey<T>>);
   }, [value, setValue, id, prefix]);
 
   return (

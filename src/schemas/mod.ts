@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from 'zod';
 import regex from './regex';
 import regexFlags from './regexFlags';
 

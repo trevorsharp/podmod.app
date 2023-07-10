@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { buildFeed, fetchFeedData } from '~/services/feedService';
 import { decompressModConfig } from '~/services/compressionService';
+import { buildFeed, fetchFeedData } from '~/services/feedService';
 import { applyMods } from '~/services/modService';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const getFeed = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
