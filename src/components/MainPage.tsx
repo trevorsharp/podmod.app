@@ -19,7 +19,7 @@ const MainPage: NextPage = () => {
   );
 
   useEffect(() => {
-    if (modConfig) void compressModConfig(modConfig).then((newFeedId) => setFeedId(newFeedId));
+    if (modConfig) compressModConfig(modConfig).then(setFeedId);
   }, [modConfig]);
 
   return (

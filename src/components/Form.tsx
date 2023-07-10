@@ -7,6 +7,7 @@ import mods from '~/formSections/mods';
 import sources from '~/formSections/sources';
 import title from '~/formSections/title';
 import modConfigSchema from '~/schemas/modConfig';
+import { decompressModConfig } from '~/services/compressionService';
 import type { ModConfig } from '~/types/ModConfig';
 
 type FormProps = {
@@ -45,6 +46,23 @@ const Form = ({ setModConfig }: FormProps) => {
   useEffect(() => {
     validateAndUpdateModConfig(currentFormValues);
   }, [currentFormValues]);
+
+  useEffect(() => {
+    const feedIdFromUrl = window.location.pathname
+      .split('/')
+      .filter((segment) => segment)
+      .find(() => true);
+
+    if (feedIdFromUrl)
+      decompressModConfig(feedIdFromUrl)
+        .then((initialModConfig) => {
+          form.setValue('sources', initialModConfig.sources);
+          form.setValue('title', initialModConfig.title);
+          form.setValue('imageUrl', initialModConfig.imageUrl);
+          form.setValue('mods', initialModConfig.mods);
+        })
+        .catch(console.log);
+  }, []);
 
   return (
     <FormProvider {...form}>
