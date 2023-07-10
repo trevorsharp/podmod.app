@@ -7,8 +7,7 @@ const Document = () => (
         name="description"
         content="Modify any podcast feed with custom filters, artwork, titles, and more!"
       />
-      <meta name="theme-color" content="#41B0F6" media="(prefers-color-scheme: light)" />
-      <meta name="theme-color" content="#348CC4" media="(prefers-color-scheme: dark)" />
+      <meta name="theme-color" content="#00A6FB" />
       <link rel="shortcut icon" href="/favicon.ico" />
       <link rel="apple-touch-icon" sizes="112x112" href="/apple-touch-icon.png" />
     </Head>

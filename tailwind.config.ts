@@ -1,12 +1,12 @@
-import { type Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        podmod: '#41B0F6',
-        'podmod-dark': '#348CC4',
+        podmod: '#00A6FB',
+        'podmod-dark': '#0582CA',
       },
     },
   },
