@@ -32,7 +32,7 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
       ((value as string).startsWith('https://') || (value as string).startsWith('http://'))
     )
       setValue(id, (value as string).replace(/^https?:\/\//, '') as PathValue<T, FieldKey<T>>);
-  }, [value, setValue, id, prefix]);
+  }, [value]);
 
   return (
     <div className="flex flex-col">

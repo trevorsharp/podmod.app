@@ -1,7 +1,10 @@
 import z from 'zod';
 
 const url = z.preprocess(
-  (val) => (typeof val === 'string' && !val.match(/^https?:\/\//i) ? `https://${val}` : val),
+  (val) =>
+    typeof val === 'string' && !val.match(/^https:\/\//i)
+      ? `https://${val.replace('http://', '')}`
+      : val,
   z
     .string()
     .regex(/^($|https:\/\/)/i, 'Must start with https://')
