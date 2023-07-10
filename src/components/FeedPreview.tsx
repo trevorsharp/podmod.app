@@ -44,16 +44,15 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
 
   return (
     <div className="2xl:max-h-screen-minus-padding 2xl:min-h-screen-minus-padding flex max-w-md flex-col items-center justify-center gap-3 md:max-w-4xl 2xl:max-w-sm">
-      <h2 className="text-xl font-bold">Feed Preview</h2>
-      <div className="flex flex-col items-center gap-12 overflow-y-auto rounded-lg border-2 px-6 py-10">
+      <div className="flex flex-col items-center gap-12 overflow-y-auto px-6 py-10">
         <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 2xl:flex-col 2xl:gap-8">
-          {coverImageUrl && (
-            <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/4 2xl:w-7/12 ">
-              <Image src={coverImageUrl} alt="Podcast Feed Cover Image" fill />
+          <div className="md:max-w-half flex justify-center md:justify-end 2xl:max-w-full 2xl:justify-center">
+            <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/2 2xl:w-7/12 ">
+              <Image src={coverImageUrl ?? '/logo.png'} alt="Podcast Feed Cover Image" fill />
             </div>
-          )}
-          <div className="flex max-w-fit flex-col items-center gap-4 text-center md:items-start md:text-left 2xl:items-center 2xl:text-center">
-            <h2 className="max-h-36 max-w-[20rem] overflow-hidden text-ellipsis text-xl font-semibold ">
+          </div>
+          <div className="md:max-w-half flex flex-col items-center gap-4 text-center md:items-start md:text-left 2xl:max-w-full 2xl:items-center 2xl:text-center">
+            <h2 className="max-h-36 max-w-[22rem] overflow-hidden text-ellipsis text-xl font-semibold">
               {feedTitle}
             </h2>
             <p className="text-md font-light">

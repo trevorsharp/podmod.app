@@ -23,7 +23,7 @@ const CopyFeedButton = ({ textToCopy, disabled = false }: ButtonProps) => {
   return (
     <button
       className={clsx(
-        'w-full rounded-md bg-podmod px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod sm:w-52',
+        'h-fit w-full rounded-md bg-podmod px-4 py-3 text-sm font-semibold text-white shadow-sm  hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod sm:w-fit',
         disabled && 'hidden'
       )}
       type="button"
@@ -32,7 +32,7 @@ const CopyFeedButton = ({ textToCopy, disabled = false }: ButtonProps) => {
     >
       <div className="flex items-center justify-center gap-3">
         <LinkIcon className="h-4 w-4" />
-        {buttonText}
+        <span className="whitespace-nowrap">{buttonText}</span>
       </div>
     </button>
   );
