@@ -11,15 +11,11 @@ body {
 }
 
 @layer utilities {
-  .max-w-half {
+  .w-two-column {
     max-width: calc(50% - 1rem);
   }
 
-  .min-h-screen-minus-padding {
-    min-height: calc(100vh - 4rem);
-  }
-
-  .max-h-screen-minus-padding {
-    max-height: calc(100vh - 4rem);
+  .h-feed-preview {
+    height: max(100vh - 4rem, 30rem);
   }
 }

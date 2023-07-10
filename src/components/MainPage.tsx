@@ -30,9 +30,9 @@ const MainPage: NextPage = () => {
         <title>podmod.app</title>
       </Head>
 
-      <div className="flex min-h-screen justify-center p-8">
-        <div className="flex flex-col items-center justify-center gap-16 2xl:flex-row 2xl:items-start">
-          <div className="2xl:min-h-screen-minus-padding flex max-w-5xl flex-col justify-center gap-12">
+      <div className="flex min-h-screen items-start p-8 2xl:items-center">
+        <div className="flex flex-col items-center justify-center gap-16 2xl:flex-row">
+          <div className="flex max-w-5xl flex-col justify-center gap-12">
             <div className="flex max-w-5xl flex-wrap justify-between gap-6 sm:flex-nowrap">
               <div className="flex gap-2">
                 <button
@@ -40,9 +40,9 @@ const MainPage: NextPage = () => {
                   type="button"
                   onClick={() => router.replace('/').then(() => router.reload())}
                 >
-                  <h1 className="text-5xl font-extrabold text-podmod">podmod.app</h1>{' '}
+                  <h1 className="text-3xl font-extrabold text-podmod xs:text-5xl">podmod.app</h1>{' '}
                 </button>
-                <h1 className="text-xl font-extrabold">BETA</h1>
+                <h1 className="text:lg font-extrabold xs:text-xl">BETA</h1>
               </div>
               <CopyFeedButton
                 textToCopy={`${window.location.origin}/${feedId}/feed`}
