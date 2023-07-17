@@ -37,7 +37,8 @@ const fetchFeedData = async (urls: string[]) => {
       })
         .then((response) => response.text())
         .then((data) => parseFeed(data))
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
           throw 'Error pulling source feed data';
         })
     )
