@@ -42,7 +42,12 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
       <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 2xl:flex-col 2xl:gap-8">
         <div className="md:w-two-column flex justify-center md:justify-end 2xl:max-w-full 2xl:justify-center">
           <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/2 2xl:w-7/12 ">
-            <Image src={coverImageUrl ?? '/logo.png'} alt="Podcast Feed Cover Image" fill />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="h-full w-full"
+              src={coverImageUrl ?? '/logo.png'}
+              alt="Podcast Feed Cover Image"
+            />
           </div>
         </div>
         <div className="md:w-two-column flex flex-col items-center gap-4 text-center md:items-start md:text-left 2xl:max-w-full 2xl:items-center 2xl:text-center">
