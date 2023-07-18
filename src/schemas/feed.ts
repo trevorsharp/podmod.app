@@ -3,6 +3,7 @@ import stringOrCDATA from './stringOrCDATA';
 
 const feed = z
   .object({
+    '?xml': z.object({}).passthrough().optional(),
     rss: z
       .object({
         channel: z
