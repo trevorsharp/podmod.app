@@ -5,12 +5,15 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const getFeed = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { host } = req.headers;
     const { feedId } = req.query;
     if (typeof feedId !== 'string') return res.status(400).send('Missing Feed Id');
 
+    const { host } = req.headers;
+    const searchParams =
+      host && req.url ? new URL(`http://${host}${req.url}`).searchParams : undefined;
+
     const modConfig = await decompressModConfig(feedId);
-    const feedData = await fetchFeedData(modConfig.sources);
+    const feedData = await fetchFeedData(modConfig.sources, searchParams);
     const moddedFeedData = applyMods(feedData, modConfig);
     const feed = buildFeed(moddedFeedData, feedId, host);
 

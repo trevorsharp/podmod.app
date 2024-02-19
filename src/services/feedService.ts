@@ -25,10 +25,13 @@ const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
   return builder.build(feed) as string;
 };
 
-const fetchFeedData = async (urls: string[]) => {
+const fetchFeedData = async (urls: string[], searchParams?: URLSearchParams) => {
   const [firstFeed, ...otherFeeds] = await Promise.all(
-    urls.map((url) =>
-      fetch(url, {
+    urls.map((urlString) => {
+      const url = new URL(urlString);
+      if (searchParams) searchParams.forEach((value, key) => url.searchParams.set(key, value));
+
+      return fetch(url, {
         headers: {
           'Access-Control-Allow-Headers': 'Content-Type',
           'Access-Control-Allow-Origin': '*',
@@ -40,8 +43,8 @@ const fetchFeedData = async (urls: string[]) => {
         .catch((error) => {
           console.log(error);
           throw 'Error pulling source feed data';
-        })
-    )
+        });
+    })
   );
 
   if (!firstFeed) throw 'Error pulling source feed data';
