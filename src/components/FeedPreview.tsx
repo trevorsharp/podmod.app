@@ -1,17 +1,17 @@
-import Image from 'next/image';
-import { applyMods } from '~/services/modService';
-import getValue from '~/utils/getValue';
-import parseDuration from '~/utils/parseDuration';
-import EpisodeCard from './EpisodeCard';
-import type { FeedData } from '~/types/FeedData';
-import type { ModConfig } from '~/types/ModConfig';
+import Image from "next/image";
+import { applyMods } from "~/services/modService";
+import getValue from "~/utils/getValue";
+import parseDuration from "~/utils/parseDuration";
+import EpisodeCard from "./EpisodeCard";
+import type { FeedData } from "~/types/FeedData";
+import type { ModConfig } from "~/types/ModConfig";
 
 type FeedPreviewProps = {
-  sourceFeedData: FeedData | undefined;
   modConfig: ModConfig | undefined;
+  sourceFeedData: FeedData | undefined;
 };
 
-const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
+const FeedPreview = ({ modConfig, sourceFeedData }: FeedPreviewProps) => {
   if (!sourceFeedData || !modConfig)
     return (
       <div className="flex max-w-md flex-col items-center justify-center gap-8 p-6 md:max-w-4xl md:flex-row md:gap-12 2xl:max-w-sm 2xl:flex-col 2xl:gap-8">
@@ -29,12 +29,12 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
 
   const feedData = applyMods(sourceFeedData, modConfig);
 
-  const coverImageUrl = feedData.rss.channel['itunes:image']?._href;
+  const coverImageUrl = feedData.rss.channel["itunes:image"]?._href;
   const feedTitle = getValue(feedData.rss.channel.title);
   const episodes = feedData.rss.channel.item.sort((a, b) =>
     a.pubDate && b.pubDate && new Date(a.pubDate).toISOString() > new Date(b.pubDate).toISOString()
       ? -1
-      : 1
+      : 1,
   );
 
   return (
@@ -42,10 +42,9 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
       <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 2xl:flex-col 2xl:gap-8">
         <div className="md:w-two-column flex justify-center md:justify-end 2xl:max-w-full 2xl:justify-center">
           <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/2 2xl:w-7/12 ">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className="h-full w-full"
-              src={coverImageUrl ?? '/logo.png'}
+              src={coverImageUrl ?? "/logo.png"}
               alt="Podcast Feed Cover Image"
             />
           </div>
@@ -56,10 +55,10 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
           </h2>
           <p className="text-md font-light">
             {episodes.length === 1
-              ? '1 Episode'
+              ? "1 Episode"
               : episodes.length === 0
-              ? 'No Episodes'
-              : `${episodes.length} Episodes`}
+                ? "No Episodes"
+                : `${episodes.length} Episodes`}
           </p>
         </div>
       </div>
@@ -67,10 +66,10 @@ const FeedPreview = ({ sourceFeedData, modConfig }: FeedPreviewProps) => {
         <div className="flex flex-wrap justify-between gap-8">
           {episodes.map((episode) => (
             <EpisodeCard
-              key={episode['podmod-key']}
+              key={episode["podmod-key"]}
               title={getValue(episode.title)}
               date={episode.pubDate}
-              duration={parseDuration(episode['itunes:duration'])}
+              duration={parseDuration(episode["itunes:duration"])}
             />
           ))}
         </div>

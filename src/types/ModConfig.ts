@@ -1,5 +1,5 @@
-import type z from 'zod';
-import type modConfig from '~/schemas/modConfig';
+import type z from "zod";
+import type modConfig from "~/schemas/modConfig";
 
 type ModConfig = z.infer<typeof modConfig>;
 

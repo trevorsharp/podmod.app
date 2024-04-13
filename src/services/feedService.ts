@@ -1,13 +1,15 @@
-import { XMLBuilder, XMLParser } from 'fast-xml-parser';
-import feedSchema from '~/schemas/feed';
-import type { X2jOptions, XmlBuilderOptions } from 'fast-xml-parser';
-import type { FeedData } from '~/types/FeedData';
+"use server";
+
+import { XMLBuilder, XMLParser } from "fast-xml-parser";
+import feedSchema from "~/schemas/feed";
+import type { X2jOptions, XmlBuilderOptions } from "fast-xml-parser";
+import type { FeedData } from "~/types/FeedData";
 
 const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
   ignoreAttributes: false,
-  attributeNamePrefix: '_',
+  attributeNamePrefix: "_",
   allowBooleanAttributes: true,
-  cdataPropName: 'cdata',
+  cdataPropName: "cdata",
   suppressBooleanAttributes: false,
 };
 
@@ -16,8 +18,8 @@ const builder = new XMLBuilder(xmlOptions);
 
 const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
   if (host) {
-    if (feed.rss.channel['atom:link']?._href)
-      feed.rss.channel['atom:link']._href = `http://${host}/${feedId}/feed`;
+    if (feed.rss.channel["atom:link"]?._href)
+      feed.rss.channel["atom:link"]._href = `http://${host}/${feedId}/feed`;
 
     feed.rss.channel.link = `http://${host}/${feedId}`;
   }
@@ -33,23 +35,26 @@ const fetchFeedData = async (urls: string[], searchParams?: URLSearchParams) => 
 
       return fetch(url, {
         headers: {
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
       })
         .then((response) => response.text())
         .then((data) => parseFeed(data))
         .catch((error) => {
           console.log(error);
-          throw 'Error pulling source feed data';
+          return undefined;
         });
-    })
+    }),
   );
 
-  if (!firstFeed) throw 'Error pulling source feed data';
+  if (!firstFeed) return undefined;
 
-  return mergeFeeds(firstFeed, otherFeeds);
+  return mergeFeeds(
+    firstFeed,
+    otherFeeds?.filter((feed) => feed).map((feed) => feed!),
+  );
 };
 
 const parseFeed = (rawFeed: string): FeedData => {
@@ -69,8 +74,8 @@ const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]) => {
         newFeed.rss.channel.item.findIndex(
           (existingItem) =>
             newItem.enclosure?._url !== undefined &&
-            newItem.enclosure._url === existingItem.enclosure?._url
-        ) === -1
+            newItem.enclosure._url === existingItem.enclosure?._url,
+        ) === -1,
     );
     newFeed.rss.channel.item.push(...newItems);
   });

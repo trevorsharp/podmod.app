@@ -1,6 +1,6 @@
-import z from 'zod';
-import mod from './mod';
-import url from './url';
+import z from "zod";
+import mod from "./mod";
+import url from "./url";
 
 const modConfig = z.object({
   version: z.custom<`v${number}`>((val) => /^v\d+$/g.test(val as string)),
@@ -8,13 +8,13 @@ const modConfig = z.object({
   title: z
     .string()
     .min(1)
-    .or(z.literal(''))
+    .or(z.literal(""))
     .optional()
-    .transform((val) => (val === '' ? undefined : val)),
+    .transform((val) => (val === "" ? undefined : val)),
   imageUrl: url
-    .or(z.literal(''))
+    .or(z.literal(""))
     .optional()
-    .transform((val) => (val === '' ? undefined : val)),
+    .transform((val) => (val === "" ? undefined : val)),
   mods: z.array(mod).optional(),
 });
 

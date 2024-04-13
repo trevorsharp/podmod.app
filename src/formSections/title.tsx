@@ -1,10 +1,10 @@
-import z from 'zod';
-import Input from '~/components/Input';
-import SectionHeader from '~/components/SectionHeader';
-import formSection from '~/utils/formSection';
+import z from "zod";
+import Input from "~/components/Input";
+import SectionHeader from "~/components/SectionHeader";
+import formSection from "~/utils/formSection";
 
 const section = formSection({
-  key: 'title',
+  key: "title",
   schema: z.string(),
   Component: ({ formType }) => (
     <div className="flex  flex-col gap-4">

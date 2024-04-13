@@ -1,16 +1,14 @@
-import brotliPromise from 'brotli-wasm';
-import modConfigSchema from '~/schemas/modConfig';
-import type { ModConfig } from '~/types/ModConfig';
+import { compress, decompress } from "brotli-compress";
+import modConfigSchema from "~/schemas/modConfig";
+import type { ModConfig } from "~/types/ModConfig";
 
 const compressModConfig = async (modConfig: ModConfig): Promise<string> => {
-  const brotli = await brotliPromise;
-  const compressedText = brotli.compress(Buffer.from(JSON.stringify(modConfig)));
-  return Buffer.from(compressedText).toString('hex');
+  const compressedText = await compress(Buffer.from(JSON.stringify(modConfig)));
+  return Buffer.from(compressedText).toString("hex");
 };
 
 const decompressModConfig = async (compressedText: string): Promise<ModConfig> => {
-  const brotli = await brotliPromise;
-  const decompressedText = brotli.decompress(Buffer.from(compressedText, 'hex'));
+  const decompressedText = await decompress(Buffer.from(compressedText, "hex"));
   const rawModConfig = JSON.parse(Buffer.from(decompressedText).toString()) as unknown;
   const modConfig = modConfigSchema.safeParse(rawModConfig);
 

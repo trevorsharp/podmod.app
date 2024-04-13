@@ -1,68 +1,54 @@
-import { useEffect } from 'react';
-import { FormProvider, useForm, useWatch } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import z from 'zod';
-import imageUrl from '~/formSections/imageUrl';
-import mods from '~/formSections/mods';
-import sources from '~/formSections/sources';
-import title from '~/formSections/title';
-import modConfigSchema from '~/schemas/modConfig';
-import { decompressModConfig } from '~/services/compressionService';
-import type { ModConfig } from '~/types/ModConfig';
+"use client";
+
+import { useEffect } from "react";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import imageUrl from "~/formSections/imageUrl";
+import mods from "~/formSections/mods";
+import sources from "~/formSections/sources";
+import title from "~/formSections/title";
+import modConfigSchema from "~/schemas/modConfig";
+import type { ModConfig } from "~/types/ModConfig";
 
 type FormProps = {
-  setModConfig: (_: ModConfig | undefined) => void;
+  initialModConfig: ModConfig | undefined;
+  setModConfig: (_: ModConfig) => void;
 };
 
-const Form = ({ setModConfig }: FormProps) => {
+const Form = ({ initialModConfig, setModConfig }: FormProps) => {
   const form = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: zodResolver(
       z
         .object({ version: z.string() })
         .and(sources.schema)
         .and(title.schema)
         .and(imageUrl.schema)
-        .and(mods.schema)
+        .and(mods.schema),
     ),
     defaultValues: {
-      version: 'v1',
+      version: "v1",
       ...sources.defaultValue,
       ...title.defaultValue,
       ...imageUrl.defaultValue,
       ...mods.defaultValue,
+      ...initialModConfig,
     },
   });
 
   const validateAndUpdateModConfig = (formValues: unknown) =>
-    modConfigSchema
-      .safeParseAsync(formValues)
-      .then((result) => result.success && setModConfig(result.data));
+    modConfigSchema.safeParseAsync(formValues).then((result) => {
+      if (result.success) setModConfig(result.data);
+    });
 
   const onSubmit = form.handleSubmit(validateAndUpdateModConfig);
 
   const currentFormValues = useWatch({ control: form.control });
 
   useEffect(() => {
-    validateAndUpdateModConfig(currentFormValues);
-  }, [currentFormValues]);
-
-  useEffect(() => {
-    const feedIdFromUrl = window.location.pathname
-      .split('/')
-      .filter((segment) => segment)
-      .find(() => true);
-
-    if (feedIdFromUrl)
-      decompressModConfig(feedIdFromUrl)
-        .then((initialModConfig) => {
-          form.setValue('sources', initialModConfig.sources);
-          form.setValue('title', initialModConfig.title);
-          form.setValue('imageUrl', initialModConfig.imageUrl);
-          form.setValue('mods', initialModConfig.mods);
-        })
-        .catch(console.log);
-  }, []);
+    const _ = validateAndUpdateModConfig(currentFormValues);
+  }, [currentFormValues.title, currentFormValues.imageUrl, JSON.stringify(currentFormValues.mods)]);
 
   return (
     <FormProvider {...form}>

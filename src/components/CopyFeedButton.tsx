@@ -1,20 +1,27 @@
-import { useState } from 'react';
-import { LinkIcon } from '@heroicons/react/20/solid';
+"use client";
+
+import { useState } from "react";
+import { LinkIcon } from "@heroicons/react/20/solid";
+import { compressModConfig } from "~/services/compressionService";
+import type { ModConfig } from "~/types/ModConfig";
+
+const defaultButtonText = "Copy Feed URL";
 
 type ButtonProps = {
-  textToCopy: string;
+  modConfig: ModConfig;
 };
 
-const CopyFeedButton = ({ textToCopy }: ButtonProps) => {
-  const defaultText = 'Copy Feed URL';
-
-  const [buttonText, setButtonText] = useState<string>(defaultText);
+const CopyFeedButton = ({ modConfig }: ButtonProps) => {
+  const [buttonText, setButtonText] = useState<string>(defaultButtonText);
 
   const onClick = () =>
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      setButtonText('Copied!');
-      setTimeout(() => setButtonText(defaultText), 2000);
-    });
+    compressModConfig(modConfig)
+      .then((feedId) => `${window.location.origin}/${feedId}/feed`)
+      .then((textToCopy) => navigator.clipboard.writeText(textToCopy))
+      .then(() => {
+        setButtonText("Copied!");
+        setTimeout(() => setButtonText(defaultButtonText), 2000);
+      });
 
   return (
     <button

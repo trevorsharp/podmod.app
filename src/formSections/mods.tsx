@@ -1,38 +1,40 @@
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import z from 'zod';
-import AddButton from '~/components/AddButton';
-import DeleteButton from '~/components/DeleteButton';
-import Input from '~/components/Input';
-import MoveUpButton from '~/components/MoveUpButton';
-import SectionHeader from '~/components/SectionHeader';
-import Select from '~/components/Select';
-import mod from '~/schemas/mod';
-import formSection from '~/utils/formSection';
+"use client";
+
+import { useFieldArray, useFormContext } from "react-hook-form";
+import z from "zod";
+import AddButton from "~/components/AddButton";
+import DeleteButton from "~/components/DeleteButton";
+import Input from "~/components/Input";
+import MoveUpButton from "~/components/MoveUpButton";
+import SectionHeader from "~/components/SectionHeader";
+import Select from "~/components/Select";
+import mod from "~/schemas/mod";
+import formSection from "~/utils/formSection";
 
 const modTypeOptions = [
-  { value: 'includes-text', label: 'Includes Text' },
-  { value: 'excludes-text', label: 'Excludes Text' },
-  { value: 'replace-text', label: 'Replace Text' },
-  { value: 'remove-text', label: 'Remove Text' },
-  { value: 'prepend-text', label: 'Prepend Text' },
-  { value: 'append-text', label: 'Append Text' },
-  { value: 'matches-regex', label: 'Matches Regex' },
-  { value: 'replace-regex', label: 'Replace Regex' },
-  { value: 'remove-regex', label: 'Remove Regex' },
-  { value: 'minimum-duration', label: 'Minimum Duration' },
-  { value: 'maximum-duration', label: 'Maximum Duration' },
+  { value: "includes-text", label: "Includes Text" },
+  { value: "excludes-text", label: "Excludes Text" },
+  { value: "replace-text", label: "Replace Text" },
+  { value: "remove-text", label: "Remove Text" },
+  { value: "prepend-text", label: "Prepend Text" },
+  { value: "append-text", label: "Append Text" },
+  { value: "matches-regex", label: "Matches Regex" },
+  { value: "replace-regex", label: "Replace Regex" },
+  { value: "remove-regex", label: "Remove Regex" },
+  { value: "minimum-duration", label: "Minimum Duration" },
+  { value: "maximum-duration", label: "Maximum Duration" },
 ] as const;
 
 const durationOptions = [
-  { value: 'hours', label: 'Hours' },
-  { value: 'minutes', label: 'Minutes' },
-  { value: 'seconds', label: 'Seconds' },
+  { value: "hours", label: "Hours" },
+  { value: "minutes", label: "Minutes" },
+  { value: "seconds", label: "Seconds" },
 ] as const;
 
-const defaultMod = { type: 'includes-text', text: '' } as const;
+const defaultMod = { type: "includes-text", text: "" } as const;
 
 const section = formSection({
-  key: 'mods',
+  key: "mods",
   schema: z.array(mod),
   defaultValue: [defaultMod],
   Component: ({ formType }) => {
@@ -40,7 +42,7 @@ const section = formSection({
 
     const { fields, append, remove, swap } = useFieldArray<NonNullable<typeof formType>>({
       control: control,
-      name: 'mods',
+      name: "mods",
     });
 
     return (
@@ -56,7 +58,7 @@ const section = formSection({
 
             return (
               <div
-                className="flex  flex-wrap items-start justify-between gap-3 rounded-md border border-neutral-300 p-3 dark:border-neutral-600 md:flex-nowrap md:border-0 md:p-0"
+                className="flex  flex-wrap items-start justify-between gap-3 rounded-md border border-neutral-300 p-3 md:flex-nowrap md:border-0 md:p-0 dark:border-neutral-600"
                 key={field.id}
               >
                 <Select formType={formType} id={`mods.${index}.type`} options={modTypeOptions} />
@@ -68,11 +70,11 @@ const section = formSection({
                   </div>
                 )}
 
-                {modType.endsWith('-text') && (
+                {modType.endsWith("-text") && (
                   <Input formType={formType} id={`mods.${index}.text`} placeholder="Text" />
                 )}
 
-                {modType.endsWith('-regex') && (
+                {modType.endsWith("-regex") && (
                   <>
                     <Input
                       formType={formType}
@@ -91,7 +93,7 @@ const section = formSection({
                   </>
                 )}
 
-                {modType.startsWith('replace-') && (
+                {modType.startsWith("replace-") && (
                   <Input
                     formType={formType}
                     id={`mods.${index}.replace`}
@@ -99,7 +101,7 @@ const section = formSection({
                   />
                 )}
 
-                {modType.endsWith('-duration') && (
+                {modType.endsWith("-duration") && (
                   <div className="flex gap-3">
                     <Input
                       formType={formType}

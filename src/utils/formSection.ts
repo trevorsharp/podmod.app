@@ -1,5 +1,5 @@
-import z from 'zod';
-import type { FieldValues } from 'react-hook-form';
+import z from "zod";
+import type { FieldValues } from "react-hook-form";
 
 type SectionProps<T extends FieldValues> = {
   formType?: T;
@@ -24,7 +24,7 @@ const formSection = <TKey extends string, TSchema extends z.ZodTypeAny>({
     [key]: defaultValue,
   } as { [K in TKey]?: z.infer<TSchema> };
 
-  return { schema: formSchema, Component, defaultValue: sectionDefaultValue };
+  return { key, schema: formSchema, Component, defaultValue: sectionDefaultValue };
 };
 
 export default formSection;

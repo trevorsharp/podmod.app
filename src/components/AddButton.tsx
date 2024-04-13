@@ -1,5 +1,7 @@
-import { PlusIcon } from '@heroicons/react/20/solid';
-import type { MouseEventHandler } from 'react';
+"use client";
+
+import { PlusIcon } from "@heroicons/react/20/solid";
+import type { MouseEventHandler } from "react";
 
 type ButtonProps = {
   onClick?: MouseEventHandler<HTMLButtonElement> | undefined;

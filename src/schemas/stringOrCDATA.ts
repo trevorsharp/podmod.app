@@ -1,4 +1,4 @@
-import z from 'zod';
+import z from "zod";
 
 const stringOrCDATA = z
   .string()
@@ -6,7 +6,7 @@ const stringOrCDATA = z
   .or(
     z.object({
       cdata: z.string().min(1),
-    })
+    }),
   );
 
 export default stringOrCDATA;

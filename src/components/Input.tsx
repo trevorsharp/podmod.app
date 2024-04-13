@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
-import { get, useFormContext } from 'react-hook-form';
-import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
-import type { FieldValues, PathValue } from 'react-hook-form';
-import type { FieldKey } from '~/types/FieldKey';
+"use client";
+
+import { useEffect } from "react";
+import { get, useFormContext } from "react-hook-form";
+import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
+import clsx from "clsx";
+import type { FieldValues, PathValue } from "react-hook-form";
+import type { FieldKey } from "~/types/FieldKey";
 
 type InputProps<T extends FieldValues> = {
   formType: T | undefined;
@@ -13,7 +15,7 @@ type InputProps<T extends FieldValues> = {
   suffix?: string;
 };
 
-const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: InputProps<T>) => {
+const Input = <T extends FieldValues>({ id, placeholder = "", prefix, suffix }: InputProps<T>) => {
   const {
     register,
     formState: { errors },
@@ -26,8 +28,8 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
   const value = watch(id);
 
   useEffect(() => {
-    if (typeof value === 'string' && prefix === 'https://')
-      setValue(id, (value as string).replace(/^https?:\/\//, '') as PathValue<T, FieldKey<T>>);
+    if (typeof value === "string" && prefix === "https://")
+      setValue(id, (value as string).replace(/^https?:\/\//, "") as PathValue<T, FieldKey<T>>);
   }, [value]);
 
   return (
@@ -42,15 +44,16 @@ const Input = <T extends FieldValues>({ id, placeholder = '', prefix, suffix }: 
         <div className="relative grow">
           <input
             className={clsx(
-              'w-full rounded-none border-0 py-1.5 ring-1 ring-inset focus:ring-2 focus:ring-inset dark:bg-neutral-800 md:text-sm md:leading-6',
+              "w-full rounded-none border-0 py-1.5 ring-1 ring-inset focus:ring-2 focus:ring-inset md:text-sm md:leading-6 dark:bg-neutral-800",
               errorMessage
-                ? 'text-red-900 ring-red-300 placeholder:text-red-400 focus:ring-red-500 dark:text-red-300 '
-                : 'ring-neutral-300 placeholder:text-neutral-400 focus:ring-podmod',
-              !prefix && 'rounded-l-md',
-              !suffix && 'rounded-r-md'
+                ? "text-red-900 ring-red-300 placeholder:text-red-400 focus:ring-red-500 dark:text-red-300 "
+                : "ring-neutral-300 placeholder:text-neutral-400 focus:ring-podmod",
+              !prefix && "rounded-l-md",
+              !suffix && "rounded-r-md",
             )}
             id={id}
             type="text"
+            spellCheck="false"
             placeholder={placeholder}
             {...register(id)}
           />

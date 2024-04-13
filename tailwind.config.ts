@@ -1,17 +1,17 @@
-import type { Config } from 'tailwindcss';
+import { type Config } from "tailwindcss";
 
 export default {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: ["./src/**/*.tsx"],
   theme: {
     extend: {
       colors: {
-        podmod: '#00A6FB',
-        'podmod-dark': '#0582CA',
+        podmod: "#00A6FB",
+        "podmod-dark": "#0582CA",
       },
       screens: {
-        xs: '400px',
+        xs: "400px",
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require("@tailwindcss/forms")],
 } satisfies Config;
