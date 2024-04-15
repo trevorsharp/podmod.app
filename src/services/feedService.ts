@@ -1,5 +1,6 @@
 "use server";
 
+import "server-only";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
 import feedSchema from "~/schemas/feed";
 import type { X2jOptions, XmlBuilderOptions } from "fast-xml-parser";
