@@ -3,6 +3,8 @@ import { decompressModConfig } from "~/services/compressionService";
 import { buildFeed, fetchFeedData } from "~/services/feedService";
 import { applyMods } from "~/services/modService";
 
+export const revalidate = 15 * 60;
+
 const GET = async (request: Request, { params }: { params: { feedId: string } }) => {
   try {
     const { feedId } = params;
@@ -26,7 +28,5 @@ const GET = async (request: Request, { params }: { params: { feedId: string } })
     });
   }
 };
-
-export const revalidate = 15 * 60;
 
 export { GET };
