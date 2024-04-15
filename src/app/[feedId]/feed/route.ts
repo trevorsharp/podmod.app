@@ -20,7 +20,7 @@ const GET = async (request: Request, { params }: { params: { feedId: string } })
     const moddedFeedData = applyMods(feedData, modConfig);
     const feed = buildFeed(moddedFeedData, feedId, host);
 
-    return feed;
+    return new NextResponse(feed);
   } catch (errorMessage) {
     console.error(errorMessage);
     return new NextResponse((errorMessage as string | undefined) ?? "Unexpected Error", {
