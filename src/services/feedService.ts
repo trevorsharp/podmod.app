@@ -39,6 +39,7 @@ const fetchFeedData = async (urls: string[], searchParams?: URLSearchParams) => 
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
+        next: { revalidate: 15 * 60 },
       })
         .then((response) => response.text())
         .then((data) => parseFeed(data))
