@@ -18,7 +18,6 @@ To run this application using Docker:
 ### docker-compose.yml
 
 ```
-version: '3'
 services:
   podmod:
     image: trevorsharp/podmod.app:latest
