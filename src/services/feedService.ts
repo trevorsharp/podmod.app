@@ -45,7 +45,7 @@ const fetchFeedData = async (urls: string[], searchParams?: URLSearchParams) => 
         .then((response) => response.text())
         .then((data) => parseFeed(data))
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           return undefined;
         });
     }),
@@ -59,9 +59,10 @@ const fetchFeedData = async (urls: string[], searchParams?: URLSearchParams) => 
   );
 };
 
-const parseFeed = (rawFeed: string): FeedData => {
+const parseFeed = (rawFeed: string): FeedData | undefined => {
   const parsedFeed = parser.parse(rawFeed) as unknown;
-  return feedSchema.parse(parsedFeed);
+  const { data: feedData, success } = feedSchema.safeParse(parsedFeed);
+  return success ? feedData : undefined;
 };
 
 const mergeFeeds = (mainFeed: FeedData, additionalFeeds: FeedData[]) => {
