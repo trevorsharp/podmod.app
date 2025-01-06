@@ -12,6 +12,10 @@ const GET = async (request: Request, { params }: { params: { feedId: string } })
       host && request.url ? new URL(`http://${host}${request.url}`).searchParams : undefined;
 
     const modConfig = await decompressModConfig(feedId);
+    if (!modConfig) {
+      return new NextResponse("Bad Request - Invalid feed parameter in URL", { status: 400 });
+    }
+
     const feedData = await fetchFeedData(modConfig.sources, searchParams);
     if (!feedData) throw "Could not find feed data for sources";
 

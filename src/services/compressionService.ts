@@ -7,14 +7,11 @@ const compressModConfig = async (modConfig: ModConfig): Promise<string> => {
   return Buffer.from(compressedText).toString("hex");
 };
 
-const decompressModConfig = async (compressedText: string): Promise<ModConfig> => {
-  const decompressedText = await decompress(Buffer.from(compressedText, "hex"));
-  const rawModConfig = JSON.parse(Buffer.from(decompressedText).toString()) as unknown;
-  const modConfig = modConfigSchema.safeParse(rawModConfig);
-
-  if (!modConfig.success) throw `Error - Invalid configuration - ${modConfig.error.message}`;
-
-  return modConfig.data;
-};
+const decompressModConfig = async (compressedText: string): Promise<ModConfig | undefined> =>
+  decompress(Buffer.from(compressedText, "hex"))
+    .then((decompressedText) => Buffer.from(decompressedText).toString())
+    .then(JSON.parse)
+    .then((data) => modConfigSchema.parse(data))
+    .catch(() => undefined);
 
 export { compressModConfig, decompressModConfig };
