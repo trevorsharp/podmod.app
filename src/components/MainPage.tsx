@@ -22,12 +22,14 @@ const MainPage = ({ initialFeedId }: MainPageProps) => {
   const [sourceFeedData, setSourceFeedData] = useState<FeedData | undefined>(undefined);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`/api/mod-config/${initialFeedId}`)
-      .then((response) => response.json())
-      .then((data) => modConfigSchema.parse(data))
-      .then((initialModConfig) => setModConfig(initialModConfig))
-      .catch(() => router.push("/"));
+    if (initialFeedId) {
+      setLoading(true);
+      fetch(`/api/mod-config/${initialFeedId}`)
+        .then((response) => response.json())
+        .then((data) => modConfigSchema.parse(data))
+        .then((initialModConfig) => setModConfig(initialModConfig))
+        .catch(() => router.push("/"));
+    }
   }, [initialFeedId]);
 
   useEffect(() => {
