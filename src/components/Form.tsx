@@ -12,11 +12,11 @@ import modConfigSchema from "~/schemas/modConfig";
 import type { ModConfig } from "~/types/ModConfig";
 
 type FormProps = {
-  initialModConfig: ModConfig | undefined;
+  modConfig: ModConfig | undefined;
   setModConfig: (_: ModConfig) => void;
 };
 
-const Form = ({ initialModConfig, setModConfig }: FormProps) => {
+const Form = ({ modConfig, setModConfig }: FormProps) => {
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(
@@ -33,7 +33,7 @@ const Form = ({ initialModConfig, setModConfig }: FormProps) => {
       ...title.defaultValue,
       ...imageUrl.defaultValue,
       ...mods.defaultValue,
-      ...initialModConfig,
+      ...modConfig,
     },
   });
 

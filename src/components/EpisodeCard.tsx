@@ -1,3 +1,5 @@
+"use client";
+
 import formatDuration from "~/utils/formatDuration";
 
 type EpisodeCardProps = {

@@ -28,11 +28,10 @@ const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
   return builder.build(feed) as string;
 };
 
-const fetchFeedData = async (urls: string[], searchParams?: URLSearchParams) => {
+const fetchFeedData = async (urls: string[]) => {
   const [firstFeed, ...otherFeeds] = await Promise.all(
     urls.map((urlString) => {
       const url = new URL(urlString);
-      if (searchParams) searchParams.forEach((value, key) => url.searchParams.set(key, value));
 
       return fetch(url, {
         headers: {

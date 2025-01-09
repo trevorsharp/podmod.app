@@ -1,5 +1,3 @@
-"use client";
-
 import { useFieldArray, useFormContext } from "react-hook-form";
 import z from "zod";
 import AddButton from "~/components/AddButton";

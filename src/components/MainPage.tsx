@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchFeedData } from "~/services/feedService";
+import { useRouter } from "next/navigation";
+import feed from "~/schemas/feed";
+import modConfigSchema from "~/schemas/modConfig";
 import CopyFeedButton from "./CopyFeedButton";
 import FeedPreview from "./FeedPreview";
 import Form from "./Form";
@@ -9,18 +11,47 @@ import type { FeedData } from "~/types/FeedData";
 import type { ModConfig } from "~/types/ModConfig";
 
 type MainPageProps = {
-  initialModConfig?: ModConfig | undefined;
+  initialFeedId?: string | undefined;
 };
 
-const MainPage = ({ initialModConfig }: MainPageProps) => {
-  const [modConfig, setModConfig] = useState<ModConfig | undefined>(initialModConfig);
+const MainPage = ({ initialFeedId }: MainPageProps) => {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(!!initialFeedId);
+  const [modConfig, setModConfig] = useState<ModConfig | undefined>(undefined);
   const [sourceFeedData, setSourceFeedData] = useState<FeedData | undefined>(undefined);
 
   useEffect(() => {
+    setLoading(true);
+    fetch(`/api/mod-config/${initialFeedId}`)
+      .then((response) => response.json())
+      .then((data) => modConfigSchema.parse(data))
+      .then((initialModConfig) => setModConfig(initialModConfig))
+      .catch(() => router.push("/"));
+  }, [initialFeedId]);
+
+  useEffect(() => {
     if (modConfig) {
-      const _ = fetchFeedData(modConfig?.sources).then((feedData) => setSourceFeedData(feedData));
+      fetch(`/api/source-feed-data`, {
+        method: "POST",
+        body: JSON.stringify(modConfig.sources),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((response) => response.json())
+        .then((data) => feed.parse(data))
+        .then((feedData) => setSourceFeedData(feedData))
+        .catch(console.error)
+        .finally(() => setLoading(false));
     }
   }, [JSON.stringify(modConfig?.sources)]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen w-full justify-center p-24 text-xl font-extrabold xs:text-2xl">
+        Loading Feed Data...
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen items-start p-8 2xl:items-center">
@@ -40,7 +71,7 @@ const MainPage = ({ initialModConfig }: MainPageProps) => {
             {modConfig && sourceFeedData && <CopyFeedButton modConfig={modConfig} />}
           </div>
 
-          <Form initialModConfig={initialModConfig} setModConfig={setModConfig} />
+          <Form modConfig={modConfig} setModConfig={setModConfig} />
         </div>
 
         <FeedPreview modConfig={modConfig} sourceFeedData={sourceFeedData} />

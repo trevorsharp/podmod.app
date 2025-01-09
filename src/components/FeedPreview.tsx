@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { applyMods } from "~/services/modService";
 import getValue from "~/utils/getValue";

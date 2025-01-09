@@ -1,5 +1,4 @@
 import MainPage from "~/components/MainPage";
-import { decompressModConfig } from "~/services/compressionService";
 
 type PageProps = {
   params: {
@@ -8,8 +7,7 @@ type PageProps = {
 };
 
 const Page = async ({ params }: PageProps) => {
-  const modConfig = await decompressModConfig(params.feedId);
-  return <MainPage initialModConfig={modConfig} />;
+  return <MainPage initialFeedId={params.feedId} />;
 };
 
 export default Page;
