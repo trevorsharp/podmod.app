@@ -49,7 +49,7 @@ const MainPage = ({ initialFeedId }: MainPageProps) => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen w-full justify-center p-24 text-xl font-extrabold xs:text-2xl">
+      <div className="flex min-h-screen w-full justify-center px-8 py-24 text-xl font-extrabold xs:text-2xl">
         Loading Feed Data...
       </div>
     );
