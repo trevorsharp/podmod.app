@@ -1,6 +1,25 @@
 import z from "zod";
 import stringOrCDATA from "./stringOrCDATA";
 
+const item = z
+  .object({
+    title: stringOrCDATA,
+    pubDate: z.string().optional(),
+    "itunes:title": stringOrCDATA.optional(),
+    "itunes:duration": z.string().or(z.number()).optional(),
+    enclosure: z
+      .object({
+        _url: z.string().optional(),
+      })
+      .passthrough()
+      .optional(),
+    "podmod-key": z
+      .string()
+      .optional()
+      .transform(() => crypto.randomUUID()),
+  })
+  .passthrough();
+
 const feed = z
   .object({
     "?xml": z.object({}).passthrough().optional(),
@@ -22,26 +41,7 @@ const feed = z
               })
               .passthrough()
               .optional(),
-            item: z.array(
-              z
-                .object({
-                  title: stringOrCDATA,
-                  pubDate: z.string().optional(),
-                  "itunes:title": stringOrCDATA.optional(),
-                  "itunes:duration": z.string().or(z.number()).optional(),
-                  enclosure: z
-                    .object({
-                      _url: z.string().optional(),
-                    })
-                    .passthrough()
-                    .optional(),
-                  "podmod-key": z
-                    .string()
-                    .optional()
-                    .transform(() => crypto.randomUUID()),
-                })
-                .passthrough(),
-            ),
+            item: z.array(item).or(item.transform((singleItem) => [singleItem])),
           })
           .passthrough(),
       })
