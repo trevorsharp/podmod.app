@@ -52,7 +52,7 @@ const section = formSection({
 
         <div className="flex flex-col items-center gap-6 md:gap-3">
           {fields.map((field, index) => {
-            const modType = watch(`mods.${index}.type`);
+            const modType = watch(`mods.${index}.type`) || "";
 
             return (
               <div
