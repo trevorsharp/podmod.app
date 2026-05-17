@@ -1,5 +1,3 @@
-"use server";
-
 import "server-only";
 import brotli from "brotli";
 import modConfigSchema from "~/schemas/modConfig";

@@ -2,7 +2,7 @@ const parseDuration = (duration: number | string | undefined) => {
   if (duration === undefined) return duration;
   if (typeof duration === "number") return duration;
 
-  if (!duration.match(/^([0-9]{1,2}:){0,2}[0-9]{1,2}$/)) return 0;
+  if (!/^([0-9]{1,2}:){0,2}[0-9]{1,2}$/.exec(duration)) return 0;
 
   let durationParts = duration.split(":");
 

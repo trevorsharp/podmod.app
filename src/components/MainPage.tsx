@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import feed from "~/schemas/feed";
 import modConfigSchema from "~/schemas/modConfig";
@@ -61,12 +62,12 @@ const MainPage = ({ initialFeedId }: MainPageProps) => {
         <div className="flex max-w-5xl flex-col justify-center gap-12">
           <div className="flex max-w-5xl flex-wrap justify-between gap-6 sm:flex-nowrap">
             <div className="flex gap-2">
-              <a
+              <Link
                 className="rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod"
                 href="/"
               >
                 <h1 className="text-3xl font-extrabold text-podmod xs:text-5xl">podmod.app</h1>{" "}
-              </a>
+              </Link>
               <h1 className="text:lg font-extrabold xs:text-xl">BETA</h1>
             </div>
 

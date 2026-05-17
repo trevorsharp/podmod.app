@@ -1,13 +1,15 @@
 import MainPage from "~/components/MainPage";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     feedId: string;
-  };
+  }>;
 };
 
 const Page = async ({ params }: PageProps) => {
-  return <MainPage initialFeedId={params.feedId} />;
+  const { feedId } = await params;
+
+  return <MainPage initialFeedId={feedId} />;
 };
 
 export default Page;

@@ -1,5 +1,3 @@
-"use server";
-
 import "server-only";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
 import feedSchema from "~/schemas/feed";
@@ -25,7 +23,7 @@ const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
     feed.rss.channel.link = `http://${host}/${feedId}`;
   }
 
-  return builder.build(feed) as string;
+  return builder.build(feed);
 };
 
 const fetchFeedData = async (urls: string[]) => {

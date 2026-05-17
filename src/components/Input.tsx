@@ -46,7 +46,7 @@ const Input = <T extends FieldValues>({ id, placeholder = "", prefix, suffix }: 
             className={clsx(
               "w-full rounded-none border-0 py-1.5 ring-1 ring-inset focus:ring-2 focus:ring-inset md:text-sm md:leading-6 dark:bg-neutral-800",
               errorMessage
-                ? "text-red-900 ring-red-300 placeholder:text-red-400 focus:ring-red-500 dark:text-red-300 "
+                ? "text-red-900 ring-red-300 placeholder:text-red-400 focus:ring-red-500 dark:text-red-300"
                 : "ring-neutral-300 placeholder:text-neutral-400 focus:ring-podmod",
               !prefix && "rounded-l-md",
               !suffix && "rounded-r-md",

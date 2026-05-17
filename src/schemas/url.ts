@@ -2,7 +2,7 @@ import z from "zod";
 
 const url = z.preprocess(
   (val) =>
-    typeof val === "string" && !val.match(/^https:\/\//i)
+    typeof val === "string" && !/^https:\/\//i.exec(val)
       ? `https://${val.replace("http://", "")}`
       : val,
   z

@@ -14,15 +14,15 @@ const formSection = <TKey extends string, TSchema extends z.ZodTypeAny>({
   key: TKey;
   schema: TSchema;
   defaultValue?: z.infer<TSchema>;
-  Component: React.FC<SectionProps<{ [K in TKey]?: z.infer<TSchema> }>>;
+  Component: React.FC<SectionProps<Partial<Record<TKey, z.infer<TSchema>>>>>;
 }) => {
   const formSchema = z.object({
     [key]: schema,
-  }) as unknown as z.ZodObject<{ [K in TKey]: TSchema }>;
+  }) as unknown as z.ZodObject<Record<TKey, TSchema>>;
 
   const sectionDefaultValue = {
     [key]: defaultValue,
-  } as { [K in TKey]?: z.infer<TSchema> };
+  } as Partial<Record<TKey, z.infer<TSchema>>>;
 
   return { key, schema: formSchema, Component, defaultValue: sectionDefaultValue };
 };

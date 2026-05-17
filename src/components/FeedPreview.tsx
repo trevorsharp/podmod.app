@@ -17,7 +17,7 @@ const FeedPreview = ({ modConfig, sourceFeedData }: FeedPreviewProps) => {
   if (!sourceFeedData || !modConfig)
     return (
       <div className="flex max-w-md flex-col items-center justify-center gap-8 p-6 md:max-w-4xl md:flex-row md:gap-12 2xl:max-w-sm 2xl:flex-col 2xl:gap-8">
-        <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/4 2xl:w-7/12 ">
+        <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/4 2xl:w-7/12">
           <Image src="/logo.png" alt="Podcast Feed Cover Image" fill />
         </div>
         <div className="flex max-w-fit flex-col items-center gap-4 text-center md:items-start md:text-left 2xl:items-center 2xl:text-center">
@@ -43,7 +43,7 @@ const FeedPreview = ({ modConfig, sourceFeedData }: FeedPreviewProps) => {
     <div className="2xl:h-feed-preview flex max-w-md flex-col items-center gap-12 overflow-y-auto p-6 md:max-w-4xl 2xl:max-w-sm">
       <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 2xl:flex-col 2xl:gap-8">
         <div className="md:w-two-column flex justify-center md:justify-end 2xl:max-w-full 2xl:justify-center">
-          <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/2 2xl:w-7/12 ">
+          <div className="relative aspect-square w-7/12 overflow-hidden rounded-lg md:w-1/2 2xl:w-7/12">
             <img
               className="h-full w-full"
               src={coverImageUrl ?? "/logo.png"}

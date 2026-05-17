@@ -44,7 +44,7 @@ const section = formSection({
     });
 
     return (
-      <div className="flex  flex-col gap-4">
+      <div className="flex flex-col gap-4">
         <SectionHeader
           title="Episode Mods"
           button={<AddButton onClick={() => append(defaultMod, { shouldFocus: false })} />}
@@ -56,7 +56,7 @@ const section = formSection({
 
             return (
               <div
-                className="flex  flex-wrap items-start justify-between gap-3 rounded-md border border-neutral-300 p-3 md:flex-nowrap md:border-0 md:p-0 dark:border-neutral-600"
+                className="flex flex-wrap items-start justify-between gap-3 rounded-md border border-neutral-300 p-3 md:flex-nowrap md:border-0 md:p-0 dark:border-neutral-600"
                 key={field.id}
               >
                 <Select formType={formType} id={`mods.${index}.type`} options={modTypeOptions} />

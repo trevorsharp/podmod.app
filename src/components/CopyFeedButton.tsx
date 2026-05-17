@@ -50,7 +50,7 @@ const CopyFeedButton = ({ modConfig }: ButtonProps) => {
 
   return (
     <button
-      className="h-fit w-full rounded-md bg-podmod px-4 py-3 text-sm font-semibold text-white shadow-sm  hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod sm:w-48"
+      className="h-fit w-full rounded-md bg-podmod px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-podmod-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-podmod sm:w-48"
       type="button"
       onClick={feedId ? copyFeedUrl : generateFeed}
       disabled={loading}
