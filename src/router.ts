@@ -9,6 +9,21 @@ import modConfigSchema from "./shared/schemas/modConfig";
 
 const router = new Hono();
 
+router.use(async (context, next) => {
+  const startedAt = performance.now();
+  const { method, url } = context.req;
+  const { pathname } = new URL(url);
+
+  console.info(`Request started ${method} ${pathname}`);
+
+  try {
+    await next();
+  } finally {
+    const durationMs = Math.round(performance.now() - startedAt);
+    console.info(`Request finished ${method} ${pathname} ${context.res.status} ${durationMs}ms`);
+  }
+});
+
 router.get("/", serveStatic({ path: `${env.UI_FOLDER_PATH}/index.html` }));
 router.get("/*", serveStatic({ root: env.UI_FOLDER_PATH }));
 

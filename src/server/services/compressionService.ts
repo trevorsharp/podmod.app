@@ -1,28 +1,43 @@
-import brotli from "brotli";
+import { brotliCompressSync, brotliDecompressSync } from "node:zlib";
 import modConfigSchema from "@shared/schemas/modConfig";
 import type { ModConfig } from "@shared/types/ModConfig";
 
-const { compress, decompress } = brotli as {
-  compress: (buffer: Buffer, options?: never) => Uint8Array;
-  decompress: (buffer: Buffer, outputSize?: number) => Uint8Array;
-};
+const maxCompressedConfigBytes = 256 * 1024;
+const maxDecompressedConfigBytes = 1024 * 1024;
 
 const compressModConfig = (modConfig: ModConfig): string => {
   const decompressedString = JSON.stringify(modConfig);
   const decompressedData = Buffer.from(decompressedString);
 
-  const compressedData = compress(decompressedData);
-  const compressedString = Buffer.from(compressedData.buffer).toString("hex");
+  const compressedData = brotliCompressSync(decompressedData);
+  const compressedString = compressedData.toString("hex");
 
   return compressedString;
 };
 
 const decompressModConfig = (compressedText: string): ModConfig | undefined => {
   try {
-    const compressedData = Buffer.from(compressedText, "hex");
+    if (compressedText.length % 2 !== 0 || !/^[\da-f]+$/i.test(compressedText)) {
+      return undefined;
+    }
 
-    const decompressedData = decompress(compressedData);
-    const decompressedText = Buffer.from(decompressedData.buffer).toString();
+    const compressedData = Buffer.from(compressedText, "hex");
+    if (compressedData.byteLength > maxCompressedConfigBytes) {
+      console.warn(`Rejected compressed mod config larger than ${maxCompressedConfigBytes} bytes`);
+      return undefined;
+    }
+
+    const decompressedData = brotliDecompressSync(compressedData, {
+      maxOutputLength: maxDecompressedConfigBytes,
+    });
+    if (decompressedData.byteLength > maxDecompressedConfigBytes) {
+      console.warn(
+        `Rejected decompressed mod config larger than ${maxDecompressedConfigBytes} bytes`,
+      );
+      return undefined;
+    }
+
+    const decompressedText = decompressedData.toString();
 
     const modConfig = JSON.parse(decompressedText) as unknown;
 
