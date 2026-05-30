@@ -27,23 +27,30 @@ const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
 
 const fetchFeedData = async (urls: string[]) => {
   const [firstFeed, ...otherFeeds] = await Promise.all(
-    urls.map((urlString) => {
-      const url = new URL(urlString);
-
-      return fetch(url, {
-        headers: {
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-        },
-        cache: "no-store",
-      })
-        .then((response) => response.text())
-        .then((data) => parseFeed(data))
-        .catch((error) => {
-          console.error(error);
-          return undefined;
+    urls.map(async (urlString) => {
+      try {
+        const url = new URL(urlString);
+        const response = await fetch(url, {
+          headers: {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+          cache: "no-store",
         });
+
+        if (!response.ok) {
+          console.error(
+            `Could not fetch feed ${urlString}: ${response.status} ${response.statusText}`,
+          );
+          return undefined;
+        }
+
+        return parseFeed(await response.text());
+      } catch (error) {
+        console.error(`Could not fetch feed ${urlString}`, error);
+        return undefined;
+      }
     }),
   );
 
