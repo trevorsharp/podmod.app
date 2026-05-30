@@ -18,8 +18,8 @@ const FeedPreview = ({ modConfig, sourceFeedData }: FeedPreviewProps) => {
           <img className="h-full w-full" src="/logo.png" alt="Podcast Feed Cover Image" />
         </div>
         <div className="flex max-w-fit flex-col items-center gap-4 text-center md:items-start md:text-left 2xl:items-center 2xl:text-center">
-          <h2 className="max-h-36 max-w-[22rem] overflow-hidden text-xl font-semibold text-ellipsis">
-            Modify Your Podcast Feeds!
+          <h2 className="max-h-36 max-w-88 overflow-hidden text-xl font-semibold text-ellipsis">
+            Modify your podcast feeds
           </h2>
           <p className="text-md font-light">Enter a source podcast URL to get started...</p>
         </div>
