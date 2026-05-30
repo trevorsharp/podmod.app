@@ -1,0 +1,8 @@
+node_modules
+ui/node_modules
+static
+.git
+.github
+*.tsbuildinfo
+.env
+.env*.local

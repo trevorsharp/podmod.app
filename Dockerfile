@@ -4,6 +4,8 @@ WORKDIR /app
 # Build static UI
 FROM base AS build
 
+COPY package.json bun.lockb ./
+RUN bun install --frozen-lockfile --production
 COPY ui/package.json ui/bun.lock ./ui/
 RUN cd ui && bun install --frozen-lockfile
 COPY ./ui ./ui
@@ -16,7 +18,7 @@ FROM base AS release
 
 COPY package.json bun.lockb ./
 RUN bun install --frozen-lockfile --production
-COPY --from=build /static ./static
+COPY --from=build /app/static ./static
 COPY ./src ./src
 
 EXPOSE 3000
