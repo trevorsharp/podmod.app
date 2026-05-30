@@ -8,7 +8,7 @@
 }
 
 body {
-  @apply bg-white text-neutral-800 dark:bg-neutral-900 dark:text-white;
+  @apply bg-podmod text-neutral-800 dark:bg-podmod-dark dark:text-white;
 }
 
 .flex {
