@@ -1,7 +1,8 @@
 import router from "./router";
+import env from "./env";
 
 Bun.serve({
-  port: 3000,
+  port: env.PORT,
   fetch: router.fetch,
   idleTimeout: 120,
 });
