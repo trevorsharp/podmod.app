@@ -15,11 +15,12 @@
     "strict": true,
     "target": "ESNext",
     "verbatimModuleSyntax": true,
-    "baseUrl": ".",
+    "baseUrl": "..",
     "paths": {
-      "@shared/*": ["./src/shared/*"]
+      "@shared/*": ["./src/shared/*"],
+      "@ui/*": ["./ui/src/*"]
     }
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "static", "ui"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "../src/shared/**/*.ts"],
+  "exclude": ["node_modules", "../node_modules", "../static"]
 }
