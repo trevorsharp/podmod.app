@@ -19,6 +19,7 @@ FROM base AS release
 COPY package.json bun.lockb ./
 RUN bun install --frozen-lockfile --production
 COPY --from=build /app/static ./static
+COPY tsconfig.json ./
 COPY ./src ./src
 
 EXPOSE 3000
