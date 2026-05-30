@@ -13,6 +13,8 @@ const xmlOptions: Partial<X2jOptions> & Partial<XmlBuilderOptions> = {
 
 const parser = new XMLParser(xmlOptions);
 const builder = new XMLBuilder(xmlOptions);
+const feedFetchTimeoutMs = 15_000;
+const maxFeedSizeBytes = 25 * 1024 * 1024;
 
 const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
   if (host) {
@@ -28,6 +30,9 @@ const buildFeed = (feed: FeedData, feedId: string, host?: string) => {
 const fetchFeedData = async (urls: string[]) => {
   const [firstFeed, ...otherFeeds] = await Promise.all(
     urls.map(async (urlString) => {
+      const abortController = new AbortController();
+      const timeout = setTimeout(() => abortController.abort(), feedFetchTimeoutMs);
+
       try {
         const url = new URL(urlString);
         const response = await fetch(url, {
@@ -37,6 +42,7 @@ const fetchFeedData = async (urls: string[]) => {
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
           },
           cache: "no-store",
+          signal: abortController.signal,
         });
 
         if (!response.ok) {
@@ -46,10 +52,12 @@ const fetchFeedData = async (urls: string[]) => {
           return undefined;
         }
 
-        return parseFeed(await response.text());
+        return parseFeed(await readFeedResponse(response, urlString));
       } catch (error) {
         console.error(`Could not fetch feed ${urlString}`, error);
         return undefined;
+      } finally {
+        clearTimeout(timeout);
       }
     }),
   );
@@ -60,6 +68,44 @@ const fetchFeedData = async (urls: string[]) => {
     firstFeed,
     otherFeeds?.filter((feed) => feed).map((feed) => feed!),
   );
+};
+
+const readFeedResponse = async (response: Response, urlString: string) => {
+  const contentLength = response.headers.get("content-length");
+  if (contentLength && Number(contentLength) > maxFeedSizeBytes) {
+    throw new Error(`Feed ${urlString} is larger than ${maxFeedSizeBytes} bytes`);
+  }
+
+  if (!response.body) return response.text();
+
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      totalBytes += value.byteLength;
+      if (totalBytes > maxFeedSizeBytes) {
+        throw new Error(`Feed ${urlString} exceeded ${maxFeedSizeBytes} bytes`);
+      }
+
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const feedBytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  chunks.forEach((chunk) => {
+    feedBytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  });
+
+  return new TextDecoder().decode(feedBytes);
 };
 
 const parseFeed = (rawFeed: string): FeedData | undefined => {
