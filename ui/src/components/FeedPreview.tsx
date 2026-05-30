@@ -21,7 +21,7 @@ const FeedPreview = ({ modConfig, sourceFeedData }: FeedPreviewProps) => {
           <h2 className="max-h-36 max-w-88 overflow-hidden text-xl font-semibold text-ellipsis">
             Modify your podcast feeds
           </h2>
-          <p className="text-md font-light">Enter a source podcast URL to get started...</p>
+          <p className="text-md font-light">Enter a source podcast URL to get started</p>
         </div>
       </div>
     );
@@ -49,7 +49,7 @@ const FeedPreview = ({ modConfig, sourceFeedData }: FeedPreviewProps) => {
           </div>
         </div>
         <div className="md:w-two-column flex flex-col items-center gap-4 text-center md:items-start md:text-left 2xl:max-w-full 2xl:items-center 2xl:text-center">
-          <h2 className="max-h-36 max-w-[22rem] overflow-hidden text-xl font-semibold text-ellipsis">
+          <h2 className="max-h-36 max-w-88 overflow-hidden text-xl font-semibold text-ellipsis">
             {feedTitle}
           </h2>
           <p className="text-md font-light">
