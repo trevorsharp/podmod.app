@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+@theme {
+  --color-podmod: #00a6fb;
+  --color-podmod-dark: #0582ca;
+  --breakpoint-xs: 400px;
+}
+
+body {
+  @apply bg-white text-neutral-800 dark:bg-neutral-900 dark:text-white;
+}
+
+.flex {
+  @apply w-full;
+}
+
+@utility w-two-column {
+  max-width: calc(50% - 1rem);
+}
+
+@utility h-feed-preview {
+  height: max(100vh - 4rem, 30rem);
+}

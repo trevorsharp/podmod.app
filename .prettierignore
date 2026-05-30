@@ -19,6 +19,7 @@ next-env.d.ts
 
 # production
 /build
+/static
 
 # misc
 .DS_Store
